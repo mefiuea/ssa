@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # 3rd party
 
     # local
-    'home_page_app.apps.HomePageAppConfig'
+    'home_page_app.apps.HomePageAppConfig',
+    'users_app.apps.UsersAppConfig',
 ]
 
 MIDDLEWARE = [

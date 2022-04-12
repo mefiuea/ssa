@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Zaloguj{% endblock %}
+
+{% block content %}
+    <h1>Logowanie</h1>
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+        {{ form }}
+        {% if is_active_error %}Użytkownik zablokowany!{% endif %}
+        <button type="submit" class="btn btn-primary">Zaloguj!</button>
+    </form>
+    <p>Nie masz konta?</p>
+    <p><a href="{% url 'users_app:signup_view' %}">Zarejestruj się!</a></p>
+    <p>Zapomniałeś hasła?</p>
+    <p><a href="{% url 'password_reset' %}">Zresetuj hasło!</a></p>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Zablokowany użytkownik!{% endblock %}
+
+{% block content %}
+        {% if is_active_error %}Użytkownik zablokowany!{% endif %}
+        <p>Skontaktuj się z administracją w tej sprawie</p>
+{% endblock %}

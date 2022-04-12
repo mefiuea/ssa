@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wylogowano{% endblock %}
+
+{% block content %}
+        <p><h1>Zostałeś wylogowany!</h1></p>
+        <p><h1>Dziękujemy!</h1></p>
+        <p><a href="{% url 'users_app:login_view' %}">zaloguj się ponownie!</a></p>
+        <p><a href="{% url 'home_page_app:home_view' %}">Powrót do strony głównej</a></p>
+{% endblock %}

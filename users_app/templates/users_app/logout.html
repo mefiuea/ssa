@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wyloguj{% endblock %}
+
+{% block content %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <p>{{ user.username }} czy na pewno chcesz się wylogować?</p>
+            <button type="submit" class="btn btn-primary">Tak, wyloguj!</button>
+        </form>
+{% endblock %}

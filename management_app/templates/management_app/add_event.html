@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Dodaj wydarzenie{% endblock %}
+
+{% block content %}
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center text-uppercase mb-4">Dodaj wydarzenie</h2>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary form-control">Dodaj!</button>
+                        </div>
+                    </form>
+                </div>
+                <a href="" class="btn btn-link">cos</a>
+                <a href="" class="btn btn-link">cos2</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

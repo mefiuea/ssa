@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # local
     'home_page_app.apps.HomePageAppConfig',
     'users_app.apps.UsersAppConfig',
+    'management_app.apps.ManagementAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,9 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder'
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -147,3 +151,5 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+DATE_INPUT_FORMATS = '%Y-%m-%d'

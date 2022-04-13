@@ -1,9 +1,12 @@
 """config URL Configuration
 
 """
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+
+from config import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -19,4 +22,11 @@ urlpatterns = [
          name='password_reset_confirm'),
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='users_app/reset_password_complet.html'),
          name='password_reset_complete'),
+    path('events/', include('management_app.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += [path('__debug__/', include('debug_toolbar.urls'))]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

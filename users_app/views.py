@@ -15,7 +15,7 @@ def signup_view(request):
             user = form.save(commit=False)
             user.is_active = True
             user.save()
-            return redirect(reverse_lazy('home_page_app:home_view'))
+            return redirect(reverse_lazy('users_app:login_view'))
     else:
         # form = UserCreationForm()
         form = RegistrationForm()
@@ -46,15 +46,3 @@ def logout_view(request):
         return render(request, 'users_app/logged_out.html')
     user = request.user
     return render(request, 'users_app/logout.html', context={'user': user})
-
-
-# def reset_password_view(request):
-#     if request.method == 'POST':
-#         form = PasswordResetForm()
-#         if form.is_valid():
-#             print('walidacja maila poprawna')
-#         else:
-#             print('walidacja maila niepoprawna!')
-#     else:
-#         form = PasswordResetForm()
-#     return render(request, 'users_app/reset_password.html', context={'form': form})

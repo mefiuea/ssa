@@ -12,21 +12,9 @@
 </head>
 <body>
 {% include 'navbar.html' %}
-<div class="d-flex container-lg mt-3 justify-content-center">
-    <div class="row">
-        <div class="col-12 col-md-12">
-            {% block content %}
+    {% block content %}
 
-            {% endblock %}
-        </div>
-
-
-{#        <div class="col-12 col-md-3">#}
-{#            {% block aside %}#}
-{##}
-{#            {% endblock %}#}
-{#        </div>#}
-    </div>
+    {% endblock %}
 </div>
 </body>
 </html>

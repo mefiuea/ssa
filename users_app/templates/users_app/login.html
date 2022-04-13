@@ -1,21 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}Zaloguj{% endblock %}
 
 {% block content %}
-    <h1>Logowanie</h1>
 
-    <form action="" method="post">
-        {% csrf_token %}
-
-        {{ form }}
-        {% if is_active_error %}Użytkownik zablokowany!{% endif %}
-        <button type="submit" class="btn btn-primary">Zaloguj!</button>
-    </form>
-    <p>Nie masz konta?</p>
-    <p><a href="{% url 'users_app:signup_view' %}">Zarejestruj się!</a></p>
-    <p>Zapomniałeś hasła?</p>
-    <p><a href="{% url 'password_reset' %}">Zresetuj hasło!</a></p>
-
+    <div class="row justify-content-center mt-3">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center text-uppercase mb-4">Logowanie</h2>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary form-control">Zaloguj!</button>
+                        </div>
+                    </form>
+                </div>
+                <a href="{% url 'users_app:signup_view' %}" class="btn btn-link">Zarejestruj się!</a></p>
+                <a href="{% url 'password_reset' %}" class="btn btn-link">Zapomniałeś hasła?</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,17 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}Zarejestruj się{% endblock %}
 
 {% block content %}
-    <h1>Rejestracja</h1>
-
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <p>Masz już konto?</p>
-        <p><a href="{% url 'users_app:login_view' %}">Zaloguj się!</a></p>
-        <button type="submit" class="btn btn-primary">Zarejestruj!</button>
-    </form>
-
+    <div class="row justify-content-center mt-3">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center text-uppercase mb-4">Rejestracja</h2>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary form-control">Zarejestruj!</button>
+                        </div>
+                    </form>
+                </div>
+                <a href="{% url 'users_app:login_view' %}" class="btn btn-link">Zaloguj się!</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

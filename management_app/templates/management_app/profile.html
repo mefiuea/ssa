@@ -19,10 +19,10 @@
                                 <div class="col-md-4 gradient-custom text-center text-white"
                                      style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                                     <img
-                                            src="{% static 'images/user_icon.svg' %}"
+                                            src="{{ profile_instance.profile_image.url }}"
                                             alt="Avatar"
-                                            class="img-fluid my-5"
-                                            style="width: 80px;"
+                                            class="img-fluid my-5 rounded-circle z-depth-2"
+                                            style="width: 150px;"
                                     />
                                     <h5><i>{{ user.username }}</i></h5>
                                     <p><i>id: {{ user.id }}</i></p>
@@ -43,7 +43,7 @@
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6><i>Ksywa</i></h6>
-                                                <p class="text-muted">{{ instance.nick_name }}</p>
+                                                <p class="text-muted">{{ profile_instance.nick_name }}</p>
                                             </div>
                                         </div>
                                         <h6>Sprzęt</h6>
@@ -51,31 +51,36 @@
                                         <div class="row pt-1">
                                             <div class="col-6 mb-3">
                                                 <h6>Replika główna</h6>
-                                                <p class="text-muted">{{ instance.lead_replica }}</p>
+                                                <p class="text-muted">{{ profile_instance.lead_replica }}</p>
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6>Replika zapasowa</h6>
-                                                <p class="text-muted">{{ instance.additional_replica }}</p>
+                                                <p class="text-muted">{{ profile_instance.additional_replica }}</p>
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6>Replika boczna</h6>
-                                                <p class="text-muted">{{ instance.side_replica }}</p>
+                                                <p class="text-muted">{{ profile_instance.side_replica }}</p>
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6>Ulubione miejsce</h6>
-                                                <p class="text-muted">{{ instance.best_place }}</p>
+                                                <p class="text-muted">{{ profile_instance.best_place }}</p>
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6>Opis sprzętu</h6>
                                             </div>
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <div class="">{{ instance.gear }}</div>
+                                                    <div class="">{{ profile_instance.gear }}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <a href="" class="btn btn-outline-primary mt-3">Stwórz wydarzenie</a>
+                                <a href="" class="btn btn-outline-secondary mt-3">Dodaj ogłoszenie na giełdzie</a>
+                                <a href="" class="btn btn-outline-primary mt-3">Dodaj wiadomość na stronie głównej</a>
+                                <a href="" class="btn btn-outline-secondary mt-3">Dodaj ankietę na stronie głównej</a>
+                                <a href="" class="btn btn-outline-primary mt-3">Dodaj miejsce</a>
                             </div>
                         </div>
                     </div>

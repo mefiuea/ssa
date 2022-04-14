@@ -29,14 +29,14 @@ def profile_view(request):
     if request.method == 'GET':
         user = User.objects.get(username=request.user)
         try:
-            instance = Profile.objects.get(owner=user.id)
+            profile_instance = Profile.objects.get(owner=user.id)
         except:
             # create default profile for user if not exist
-            instance = Profile.objects.create(owner=user)
+            profile_instance = Profile.objects.create(owner=user)
 
         return render(request, 'management_app/profile.html', context={
             'user': user,
-            'instance': instance
+            'profile_instance': profile_instance
         })
 
 
@@ -44,7 +44,7 @@ def profile_view(request):
 def profile_edit_view(request, user_id):
     if request.method == 'POST':
         instance = get_object_or_404(Profile, owner=user_id)
-        form = ProfileEditForm(request.POST, instance=instance)
+        form = ProfileEditForm(request.POST, request.FILES, instance=instance)
         if form.is_valid():
             form.instance.owner = request.user
             form.save()

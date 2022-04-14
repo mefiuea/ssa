@@ -12,3 +12,5 @@ env/.env
 staticfiles/*
 
 data_base_local_settings.py
+
+media

@@ -14,7 +14,6 @@ class Events(models.Model):
     participants = models.ManyToManyField(get_user_model(), related_name='event_participants', blank=True)
     event_image = models.ImageField(upload_to='events_images/', blank=True, null=True, verbose_name='Zdjęcie', default='events_images/default_event_icon.svg')
     slug = models.SlugField(max_length=200, blank=True)
-    title2 = models.CharField(max_length=200, unique=True, verbose_name='Tytuł')
 
     def __str__(self):
         return self.title

@@ -60,3 +60,30 @@ def profile_edit_view(request, user_id):
             'gear': instance.gear
         })
     return render(request, 'management_app/profile_edit.html', context={'form': form})
+
+
+@login_required(login_url='users_app:login_view')
+def event_add_view(request):
+    if request.method == 'POST':
+        form = EventsForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.owner = request.user
+            form.save()
+            return redirect(reverse_lazy('management_app:profile_view'))
+        else:
+            # TODO: obsłużyć błędy walidacji
+            print('Problem')
+            return redirect(reverse_lazy('management_app:profile_view'))
+
+    if request.method == 'GET':
+        form = EventsForm()
+        return render(request, 'management_app/add_event.html', context={'form': form})
+
+
+@login_required(login_url='users_app:login_view')
+def events_view(request):
+    if request.method == 'POST':
+        pass
+    if request.method == 'GET':
+        events_instance = Events.objects.all().order_by('-date')
+        return render(request, 'management_app/events.html', context={'events_instance': events_instance})

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Dodaj wydarzenie{% endblock %}
+
+{% block content %}
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-4">
+            {% for event in events_instance %}
+                <div class="card mb-3">
+                    <img class="card-img-top img-thumbnail" src="{{ event.event_image.url }}" alt="Event picture">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Data wydarzenia: {{ event.date }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Miejsce wydarzenia: {{ event.place }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Twórca wydarzenia: {{ event.owner }}</h6>
+                        <p><a href="" class="btn btn-primary form-control">Szczegóły wydarzenia</a></p>
+                        <p class="card-text"><small class="text-muted">Data utworzenia: {{ event.created_date }}</small></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

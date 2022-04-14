@@ -22,7 +22,7 @@ urlpatterns = [
          name='password_reset_confirm'),
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='users_app/reset_password_complet.html'),
          name='password_reset_complete'),
-    path('events/', include('management_app.urls')),
+    path('management/', include('management_app.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

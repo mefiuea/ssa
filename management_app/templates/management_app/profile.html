@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Profil{% endblock %}
+
+<style>
+
+</style>
+
+{% block content %}
+    <div class="col-12">
+        <section class="vh-100">
+            <div class="container py-5">
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col col-lg-6 mb-4 mb-lg-0">
+                        <div class="card mb-3" style="border-radius: .5rem;">
+                            <div class="row g-0">
+                                <div class="col-md-4 gradient-custom text-center text-white"
+                                     style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                                    <img
+                                            src="{% static 'images/user_icon.svg' %}"
+                                            alt="Avatar"
+                                            class="img-fluid my-5"
+                                            style="width: 80px;"
+                                    />
+                                    <h5><i>{{ user.username }}</i></h5>
+                                    <p><i>id: {{ user.id }}</i></p>
+                                    <p>
+                                        <a href="{% url 'management_app:profile_edit_view' user.id %}"
+                                           class="btn btn-outline-light">Edytuj profil</a>
+                                    </p>
+                                    <i class="far fa-edit mb-5"></i>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body p-4">
+                                        <h6>Informacje</h6>
+                                        <hr class="mt-0 mb-4">
+                                        <div class="row pt-1">
+                                            <div class="col-6 mb-3">
+                                                <h6><i>Email</i></h6>
+                                                <p class="text-muted">{{ user.email }}</p>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <h6><i>Ksywa</i></h6>
+                                                <p class="text-muted">{{ instance.nick_name }}</p>
+                                            </div>
+                                        </div>
+                                        <h6>Sprzęt</h6>
+                                        <hr class="mt-0 mb-4">
+                                        <div class="row pt-1">
+                                            <div class="col-6 mb-3">
+                                                <h6>Replika główna</h6>
+                                                <p class="text-muted">{{ instance.lead_replica }}</p>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <h6>Replika zapasowa</h6>
+                                                <p class="text-muted">{{ instance.additional_replica }}</p>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <h6>Replika boczna</h6>
+                                                <p class="text-muted">{{ instance.side_replica }}</p>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <h6>Ulubione miejsce</h6>
+                                                <p class="text-muted">{{ instance.best_place }}</p>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <h6>Opis sprzętu</h6>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="">{{ instance.gear }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

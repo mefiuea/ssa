@@ -3,8 +3,10 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import TemplateView
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
 
 from users_app.forms import RegistrationForm
+from management_app.models import Profile
 
 
 def signup_view(request):

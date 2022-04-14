@@ -9,12 +9,13 @@
     <title>SSA - {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
     <script src="{% static 'scripts/bootstrap.min.js' %}" defer async></script>
+    <link rel="stylesheet" href="{% static 'styles/profile_gradient.css' %}">
 </head>
-<body>
+<body style="background-color: #f4f5f7;">
 {% include 'navbar.html' %}
-    {% block content %}
+{% block content %}
 
-    {% endblock %}
+{% endblock %}
 </div>
 </body>
 </html>

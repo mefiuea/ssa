@@ -1,9 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 
-from .forms import EventsForm
+from .forms import EventsForm, ProfileEditForm
+from .models import Events, Profile
 
 
+@login_required(login_url='users_app:login_view')
 def event_add_view(request):
     if request.method == 'POST':
         form = EventsForm(request.POST)
@@ -15,3 +20,43 @@ def event_add_view(request):
         form = EventsForm()
 
     return render(request, 'management_app/add_event.html', context={'form': form})
+
+
+@login_required(login_url='users_app:login_view')
+def profile_view(request):
+    if request.method == 'POST':
+        pass
+    if request.method == 'GET':
+        user = User.objects.get(username=request.user)
+        try:
+            instance = Profile.objects.get(owner=user.id)
+        except:
+            # create default profile for user if not exist
+            instance = Profile.objects.create(owner=user)
+
+        return render(request, 'management_app/profile.html', context={
+            'user': user,
+            'instance': instance
+        })
+
+
+@login_required(login_url='users_app:login_view')
+def profile_edit_view(request, user_id):
+    if request.method == 'POST':
+        instance = get_object_or_404(Profile, owner=user_id)
+        form = ProfileEditForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.instance.owner = request.user
+            form.save()
+            return redirect(reverse_lazy('management_app:profile_view'))
+    else:
+        instance = get_object_or_404(Profile, owner=user_id)
+        form = ProfileEditForm(initial={
+            'nick_name': instance.nick_name,
+            'lead_replica': instance.lead_replica,
+            'additional_replica': instance.additional_replica,
+            'side_replica': instance.side_replica,
+            'best_place': instance.best_place,
+            'gear': instance.gear
+        })
+    return render(request, 'management_app/profile_edit.html', context={'form': form})

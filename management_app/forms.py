@@ -1,7 +1,6 @@
 from django import forms
 
-
-from .models import Events
+from .models import Events, Profile
 
 
 class DateInput(forms.DateInput):
@@ -20,3 +19,9 @@ class EventsForm(forms.ModelForm):
             'date': DateInput(),
             'time': TimeInput(),
         }
+
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('nick_name', 'lead_replica', 'additional_replica', 'side_replica', 'best_place', 'gear', 'profile_image')

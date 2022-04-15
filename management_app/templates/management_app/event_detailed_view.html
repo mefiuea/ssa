@@ -16,7 +16,7 @@
                     <h6 class="card-title">Twórca: {{ event.owner }}</h6>
                     <h6 class="card-title text-muted"><i>Uczestnicy:</i>
                         {% for participant in participants %}
-                            {{ participant }},
+                            {{ participant }}{% if forloop.last %}{% else %},{% endif %}
                         {% endfor %}
                     </h6>
                     <p class="text-center card-text mt-4">{{ event.description }}</p>

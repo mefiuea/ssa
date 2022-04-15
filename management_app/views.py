@@ -74,7 +74,7 @@ def event_add_view(request):
         return render(request, 'management_app/add_event.html', context={'form': form})
 
 
-@login_required(login_url='users_app:login_view')
+# @login_required(login_url='users_app:login_view')
 def events_view(request):
     if request.method == 'POST':
         pass

@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 
 from .forms import EventsForm, ProfileEditForm
 from .models import Events, Profile
@@ -80,7 +81,16 @@ def events_view(request):
         pass
     if request.method == 'GET':
         events_instance = Events.objects.all().order_by('-date')
-        return render(request, 'management_app/events.html', context={'events_instance': events_instance})
+
+        # setting Pagination
+        paginator_instance = Paginator(events_instance, 2)
+        page = request.GET.get('page')
+        events_list = paginator_instance.get_page(page)
+        nums = 'i' * events_list.paginator.num_pages
+
+        return render(request, 'management_app/events.html', context={'events_instance': events_instance,
+                                                                      'events_list_paginator': events_list,
+                                                                      'nums': nums})
 
 
 @login_required(login_url='users_app:login_view')

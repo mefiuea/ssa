@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Usuń wydarzenie{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center mt-3">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="text-center alert alert-danger" role="alert">
+                            czy na pewno chcesz usunąć wydarzenie: <b>{{ event_instance.title }}</b>
+                        </div>
+                        <button type="submit" class="btn btn-danger mt-3 form-control">Tak, usuń!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

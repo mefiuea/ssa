@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -51,14 +52,7 @@ def profile_edit_view(request, user_id):
             return redirect(reverse_lazy('management_app:profile_view'))
     else:
         instance = get_object_or_404(Profile, owner=user_id)
-        form = ProfileEditForm(initial={
-            'nick_name': instance.nick_name,
-            'lead_replica': instance.lead_replica,
-            'additional_replica': instance.additional_replica,
-            'side_replica': instance.side_replica,
-            'best_place': instance.best_place,
-            'gear': instance.gear
-        })
+        form = ProfileEditForm(instance=instance)
     return render(request, 'management_app/profile_edit.html', context={'form': form})
 
 
@@ -72,7 +66,7 @@ def event_add_view(request):
             return redirect(reverse_lazy('management_app:profile_view'))
         else:
             # TODO: obsłużyć błędy walidacji
-            print('Problem')
+            # raise ValidationError("problem z walidacja!")
             return redirect(reverse_lazy('management_app:profile_view'))
 
     if request.method == 'GET':
@@ -87,3 +81,73 @@ def events_view(request):
     if request.method == 'GET':
         events_instance = Events.objects.all().order_by('-date')
         return render(request, 'management_app/events.html', context={'events_instance': events_instance})
+
+
+@login_required(login_url='users_app:login_view')
+def event_detailed_view(request, event_id):
+    if request.method == 'POST':
+        if 'participate_in_button' in request.POST:
+            concerned_user_instance = request.user
+            event_instance = Events.objects.get(pk=event_id)
+            # add user to event
+            event_instance.participants.add(concerned_user_instance)
+            return redirect('management_app:event_detailed_view', event_id)
+
+        if 'cancel_participation_button' in request.POST:
+            concerned_user_instance = request.user
+            event_instance = Events.objects.get(pk=event_id)
+            # remove user from event
+            event_instance.participants.remove(concerned_user_instance)
+            return redirect('management_app:event_detailed_view', event_id)
+
+    if request.method == 'GET':
+        creator_instance = request.user
+        event_instance = Events.objects.get(pk=event_id)
+        participants = event_instance.participants.all()
+        participants_list = []
+        for participant in participants:
+            participants_list.append(participant.username)
+
+        # check if the logged-in user already take part in event
+        if creator_instance in participants:
+            creator_already_take_part_in_event = True
+        else:
+            creator_already_take_part_in_event = False
+
+        # check if the logged-in user is the creator of the event
+        if creator_instance == event_instance.owner:
+            is_creator = True
+        else:
+            is_creator = False
+        return render(request, 'management_app/event_detailed_view.html', context={'event': event_instance,
+                                                                                   'participants': participants_list,
+                                                                                   'is_creator': is_creator,
+                                                                                   'creator_already_take_part_in_event': creator_already_take_part_in_event})
+
+
+@login_required(login_url='users_app:login_view')
+def event_edit_view(request, event_id):
+    if request.method == 'POST':
+        event_instance = Events.objects.get(pk=event_id)
+        form = EventsForm(request.POST, request.FILES, instance=event_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('management_app:event_detailed_view', event_id)
+
+    if request.method == 'GET':
+        event_instance = Events.objects.get(pk=event_id)
+        form = EventsForm(instance=event_instance)
+        return render(request, 'management_app/event_edit_view.html', context={'form': form,
+                                                                               'event_instance': event_instance})
+
+
+@login_required(login_url='users_app:login_view')
+def event_delete_view(request, event_id):
+    if request.method == 'POST':
+        event_instance = Events.objects.get(pk=event_id)
+        event_instance.delete()
+        return redirect(reverse_lazy('management_app:events_view'))
+
+    if request.method == 'GET':
+        event_instance = Events.objects.get(pk=event_id)
+        return render(request, 'management_app/event_delete_view.html', context={'event_instance': event_instance})

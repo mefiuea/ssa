@@ -152,6 +152,6 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-DATE_INPUT_FORMATS = '%Y-%m-%d'
+# DATE_INPUT_FORMATS = '%Y-%m-%d'
 
 # LOGIN_REDIRECT_URL = 'users_app:login_view'

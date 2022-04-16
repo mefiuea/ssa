@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Events(models.Model):
@@ -36,3 +37,25 @@ class Profile(models.Model):
     additional_replica = models.CharField(max_length=50, blank=True, verbose_name='Replika dodatkowa')
     side_replica = models.CharField(max_length=50, blank=True, verbose_name='Replika boczna')
     gear = models.TextField(blank=True, verbose_name='Wyposażenie')
+
+
+class Offers(models.Model):
+    owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
+    title = models.CharField(max_length=200, verbose_name='Tytuł')
+    created_date = models.DateTimeField(auto_now_add=True)
+    offer_image = models.ImageField(upload_to='offers_images/', verbose_name='Zdjęcie', blank=True, default='offers_images/default_offer_icon.svg')
+    slug = models.SlugField(max_length=200, blank=True)
+    price = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Cena PLN', validators=[MinValueValidator(1), MaxValueValidator(9999.99)], default=0.00)
+    url = models.URLField(max_length=200, blank=True, verbose_name='Url')
+    description = models.TextField(blank=True, verbose_name='Opis')
+    CONDITION_CHOICES = [
+        ('N', 'Nowy'),
+        ('U', 'Używany'),
+    ]
+    condition = models.CharField(max_length=8, choices=CONDITION_CHOICES, verbose_name='Stan', blank=True)
+    TYPE_CHOICES = [
+        ('S', 'Sprzedam'),
+        ('K', 'Kupię'),
+        ('Z', 'Zamienię'),
+    ]
+    type = models.CharField(max_length=8, choices=TYPE_CHOICES, default='S', verbose_name='Typ')

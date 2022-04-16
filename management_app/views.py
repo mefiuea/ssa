@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 
-from .forms import EventsForm, ProfileEditForm
+from .forms import EventsForm, ProfileEditForm, OffersForm
 from .models import Events, Profile
 
 
@@ -198,3 +198,13 @@ def persons_view(request):
             'profiles_users_instance': profiles_users_instance_pagination,
             'pagination_unique_list': pagination_unique_list,
             'nums': nums})
+
+
+@login_required(login_url='users_app:login_view')
+def offer_add_view(request):
+    if request.method == 'POST':
+        pass
+
+    if request.method == 'GET':
+        form = OffersForm()
+        return render(request, 'management_app/add_offer.html', context={'form': form})

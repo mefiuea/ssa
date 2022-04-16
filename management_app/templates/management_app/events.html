@@ -5,8 +5,9 @@
 {% block title %}Lista wydarzeń{% endblock %}
 
 {% block content %}
+    <div class="container-lg">
     <div class="d-flex justify-content-center mt-3">
-        <div class="w-75">
+        <div class="w-100">
             {% for event in events_list_paginator %}
                 <div class="card mb-5">
                     <img class="card-img-top img-thumbnail" style="height: 15rem; object-fit: cover"
@@ -59,5 +60,5 @@
             Strona {{ events_list_paginator.number }} z {{ events_list_paginator.paginator.num_pages }}
         </div>
     </nav>
-
+    </div>
 {% endblock %}

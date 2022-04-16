@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Osoby{% endblock %}
+
+{% block content %}
+    <div class="container-lg">
+        <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+            {% for profile_user, unique_id in pagination_unique_list %}
+                <div class="card" style="width: 25rem;">
+                    <img src="{{ profile_user.profile_image.url }}" class="card-img-top img-thumbnail "
+                         alt="Profile picture">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ profile_user.owner.username }}</h5>
+                        <p>
+                            <button class="btn btn-primary form-control" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#{{ unique_id }}" aria-expanded="false"
+                                    aria-controls="{{ profile_user.id }}">
+                                Szczegóły
+                            </button>
+                        </p>
+                        <div class="collapse" id="{{ unique_id }}">
+                            <div class="card card-body text-start">
+                                <p><i class="fw-bold">Email: </i><i>{{ profile_user.owner.email }}</i></p>
+                                <p><i class="fw-bold">Ksywka: </i><i>{{ profile_user.nick_name }}</i></p>
+                                <p><i class="fw-bold">Replika główna: </i><i>{{ profile_user.lead_replica }}</i></p>
+                                <p><i class="fw-bold">Replika zapasowa: </i><i>{{ profile_user.side_replica }}</i></p>
+                                <p><i class="fw-bold">Replika boczna: </i><i>{{ profile_user.additional_replica }}</i></p>
+                                <p><i class="fw-bold">Ulubione miejsce: </i><i>{{ profile_user.best_place }}</i></p>
+                                <p><i class="fw-bold">Opis sprzętu: </i><i>{{ profile_user.gear }}</i></p>
+                                <p class="text-muted">Data dołączenia: </i><i>{{ profile_user.owner.date_joined }}</i></p>
+                            </div>
+                        </div>
+
+                        <a href="" class=""></a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center mt-5">
+
+                {% if profiles_users_instance.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a>
+                    </li>
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ profiles_users_instance.previous_page_number }}">Poprzednia
+                        strona</a></li>
+                {% endif %}
+
+                {#            {% for i in nums %}#}
+                {#                <li class="page-item" aria-current='page'><a class="page-link"#}
+                {#                                                             href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>#}
+                {#                </li>#}
+                {#            {% endfor %}#}
+
+                {% if profiles_users_instance.has_next %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ profiles_users_instance.next_page_number }}">Następna
+                        strona</a></li>
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ profiles_users_instance.paginator.num_pages }}">&raquo;</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+            <div class="text-center mb-5">
+                Strona {{ profiles_users_instance.number }} z {{ profiles_users_instance.paginator.num_pages }}
+            </div>
+        </nav>
+
+    </div>
+{% endblock %}

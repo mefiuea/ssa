@@ -1,3 +1,6 @@
+import random
+import string
+
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -161,3 +164,37 @@ def event_delete_view(request, event_id):
     if request.method == 'GET':
         event_instance = Events.objects.get(pk=event_id)
         return render(request, 'management_app/event_delete_view.html', context={'event_instance': event_instance})
+
+
+@login_required(login_url='users_app:login_view')
+def persons_view(request):
+    def get_random_string(length):
+        # choose from all lowercase letter
+        letters = string.ascii_lowercase
+        result_str = ''.join(random.choice(letters) for i in range(length))
+        return result_str
+
+    if request.method == 'POST':
+        pass
+
+    if request.method == 'GET':
+        profiles_users_instance = Profile.objects.all().order_by('owner').select_related('owner')
+
+        # generate random string for templates for unique collapse id (only letters)
+        unique_id_list = []
+        for _ in range(profiles_users_instance.count()):
+            unique_id_list.append(get_random_string(8))
+
+        # setting Pagination
+        paginator_instance = Paginator(profiles_users_instance, 12)
+        page = request.GET.get('page')
+        profiles_users_instance_pagination = paginator_instance.get_page(page)
+        nums = 'i' * profiles_users_instance_pagination.paginator.num_pages
+
+        # connect to lists
+        pagination_unique_list = zip(profiles_users_instance_pagination, unique_id_list)
+
+        return render(request, 'management_app/persons.html', context={
+            'profiles_users_instance': profiles_users_instance_pagination,
+            'pagination_unique_list': pagination_unique_list,
+            'nums': nums})

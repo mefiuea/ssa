@@ -45,7 +45,7 @@ class Offers(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     offer_image = models.ImageField(upload_to='offers_images/', verbose_name='Zdjęcie', blank=True, default='offers_images/default_offer_icon.svg')
     slug = models.SlugField(max_length=200, blank=True)
-    price = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Cena PLN', validators=[MinValueValidator(1), MaxValueValidator(9999.99)], default=0.00)
+    price = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Cena PLN', validators=[MinValueValidator(0), MaxValueValidator(9999.99)], default=0.00)
     url = models.URLField(max_length=200, blank=True, verbose_name='Url')
     description = models.TextField(blank=True, verbose_name='Opis')
     CONDITION_CHOICES = [

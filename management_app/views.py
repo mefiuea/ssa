@@ -203,7 +203,15 @@ def persons_view(request):
 @login_required(login_url='users_app:login_view')
 def offer_add_view(request):
     if request.method == 'POST':
-        pass
+        form = OffersForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.owner = request.user
+            form.save()
+            return redirect(reverse_lazy('management_app:profile_view'))
+        else:
+            # errors = form.errors
+            # TODO: obsłużyć błędy walidacji
+            raise ValidationError("problem z walidacja!")
 
     if request.method == 'GET':
         form = OffersForm()

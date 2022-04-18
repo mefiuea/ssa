@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import DateInput
 
-from .models import Events, Profile, Offers
+from .models import Events, Profile, Offers, Post, Comment
 
 
 # class DateInput(forms.DateInput):
@@ -38,3 +38,9 @@ class OffersForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'style': 'width: 120px', 'step': '0.01', 'min': '0', 'max': '9999.99'}),
             'url': forms.URLInput(attrs={'type': ''}),
         }
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'description', 'post_image')

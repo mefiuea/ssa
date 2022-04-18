@@ -5,12 +5,11 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 
-from .forms import EventsForm, ProfileEditForm, OffersForm
-from .models import Events, Profile, Offers
+from .forms import EventsForm, ProfileEditForm, OffersForm, PostForm
+from .models import Events, Profile, Offers, Post, Comment
 
 
 @login_required(login_url='users_app:login_view')
@@ -268,3 +267,21 @@ def offer_delete_view(request, offer_id):
     if request.method == 'GET':
         offer_instance = Offers.objects.get(pk=offer_id)
         return render(request, 'management_app/offer_delete_view.html', context={'offer_instance': offer_instance})
+
+
+@login_required(login_url='users_app:login_view')
+def post_add_view(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.owner = request.user
+            form.save()
+            return redirect(reverse_lazy('home_page_app:home_view'))
+        else:
+            # errors = form.errors
+            # TODO: obsłużyć błędy walidacji
+            raise ValidationError("problem z walidacja!")
+
+    if request.method == 'GET':
+        form = PostForm()
+        return render(request, 'management_app/add_post.html', context={'form': form})

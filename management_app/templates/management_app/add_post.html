@@ -2,14 +2,14 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block title %}Dodaj ogłoszenie na giełdzie{% endblock %}
+{% block title %}Dodaj post{% endblock %}
 
 {% block content %}
     <div class="row justify-content-center mt-3">
         <div class="col-4">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="text-center text-uppercase mb-4">Dodaj ogłoszenie na giełdzie</h2>
+                    <h2 class="text-center text-uppercase mb-4">Dodaj post na stronie głównej</h2>
                     <form action="" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ form|crispy }}

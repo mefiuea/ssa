@@ -5,9 +5,44 @@
 
 {% block content %}
     <div class="container-lg">
+        {#    Posts#}
+        <p class="text-center text">Wiadomości</p>
+        <div class="d-flex justify-content-center mt-3 mb-4">
+            <div class="d-flex">
+                {% for post in posts_list_paginator %}
+                    <div class="card mb-3" style="max-width: 1000px;">
+                        <div class="card-header text-center">
+                            {{ post.owner }}
+                            <img src="{{ user_profile.profile_image.url }}" class="img-fluid rounded-circle z-depth-2"
+                                 style="object-fit: scale-down; width: 25px;" alt="Post picture">
+                        </div>
+                        <div class="row g-0">
+                            <div class="">
+                                <div class="card-body h-100 text-center">
+                                    <h5 class="card-title">{{ post.title }}</h5>
+                                    <p class="card-text">{{ post.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted text-center fw-lighter">
+                            {{ post.created_date }} |
+                            <img src="{% static 'images/like_user_icon.svg' %}"
+                                 class="img-fluid rounded-circle z-depth-2"
+                                 style="object-fit: scale-down; width: 20px;" alt="Post picture">
+                            10
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        {#    Events#}
         <div class="d-flex justify-content-center mt-3">
             <div class="w-100">
-                <div class="d-sm-flex w-100">
+                <hr>
+                <p class="text-center text mt-5">Wydarzenia</p>
+                <div class="d-sm-flex">
                     <div class="card-body" style="width: 25rem;">
                         <img src="{{ event0.event_image.url }}" class="card-img-top img-thumbnail"
                              alt="Event picture 1">

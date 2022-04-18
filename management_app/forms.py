@@ -36,4 +36,5 @@ class OffersForm(forms.ModelForm):
         fields = ('type', 'title', 'price', 'url', 'description', 'condition', 'offer_image')
         widgets = {
             'price': forms.NumberInput(attrs={'style': 'width: 120px', 'step': '0.01', 'min': '0', 'max': '9999.99'}),
+            'url': forms.URLInput(attrs={'type': ''}),
         }

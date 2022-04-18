@@ -10,21 +10,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 
 from .forms import EventsForm, ProfileEditForm, OffersForm
-from .models import Events, Profile
-
-
-@login_required(login_url='users_app:login_view')
-def event_add_view(request):
-    if request.method == 'POST':
-        form = EventsForm(request.POST)
-        if form.is_valid():
-            form.instance.owner = request.user
-            form.save()
-            return redirect(reverse_lazy('home_page_app:home_view'))
-    else:
-        form = EventsForm()
-
-    return render(request, 'management_app/add_event.html', context={'form': form})
+from .models import Events, Profile, Offers
 
 
 @login_required(login_url='users_app:login_view')
@@ -86,7 +72,7 @@ def events_view(request):
         events_instance = Events.objects.all().order_by('-date')
 
         # setting Pagination
-        paginator_instance = Paginator(events_instance, 2)
+        paginator_instance = Paginator(events_instance, 12)
         page = request.GET.get('page')
         events_list = paginator_instance.get_page(page)
         nums = 'i' * events_list.paginator.num_pages
@@ -216,3 +202,69 @@ def offer_add_view(request):
     if request.method == 'GET':
         form = OffersForm()
         return render(request, 'management_app/add_offer.html', context={'form': form})
+
+
+@login_required(login_url='users_app:login_view')
+def market_view(request):
+    if request.method == 'POST':
+        pass
+    if request.method == 'GET':
+        offers_instance = Offers.objects.all().order_by('-created_date')
+
+        # setting Pagination
+        paginator_instance = Paginator(offers_instance, 12)
+        page = request.GET.get('page')
+        offers_list = paginator_instance.get_page(page)
+        nums = 'i' * offers_list.paginator.num_pages
+
+        return render(request, 'management_app/market.html', context={'offers_instance': offers_instance,
+                                                                      'offers_list_paginator': offers_list,
+                                                                      'nums': nums})
+
+
+@login_required(login_url='users_app:login_view')
+def offer_detailed_view(request, offer_id):
+    if request.method == 'POST':
+        pass
+
+    if request.method == 'GET':
+        creator_instance = request.user
+        offer_instance = Offers.objects.get(pk=offer_id)
+
+        # check if the logged-in user is the creator of the offer
+        if creator_instance == offer_instance.owner:
+            is_creator = True
+        else:
+            is_creator = False
+        return render(request, 'management_app/offer_detailed_view.html', context={'offer': offer_instance,
+                                                                                   'is_creator': is_creator})
+
+
+@login_required(login_url='users_app:login_view')
+def offer_edit_view(request, offer_id):
+    if request.method == 'POST':
+        offer_instance = Offers.objects.get(pk=offer_id)
+        form = OffersForm(request.POST, request.FILES, instance=offer_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('management_app:offer_detailed_view', offer_id)
+        else:
+            print(form.errors)
+
+    if request.method == 'GET':
+        offer_instance = Offers.objects.get(pk=offer_id)
+        form = OffersForm(instance=offer_instance)
+        return render(request, 'management_app/offer_edit_view.html', context={'form': form,
+                                                                               'offer_instance': offer_instance})
+
+
+@login_required(login_url='users_app:login_view')
+def offer_delete_view(request, offer_id):
+    if request.method == 'POST':
+        offer_instance = Offers.objects.get(pk=offer_id)
+        offer_instance.delete()
+        return redirect(reverse_lazy('management_app:market_view'))
+
+    if request.method == 'GET':
+        offer_instance = Offers.objects.get(pk=offer_id)
+        return render(request, 'management_app/offer_delete_view.html', context={'offer_instance': offer_instance})

@@ -17,6 +17,8 @@ def signup_view(request):
             user = form.save(commit=False)
             user.is_active = True
             user.save()
+            # create empty profile for current user
+            Profile.objects.create(owner=user)
             return redirect(reverse_lazy('users_app:login_view'))
     else:
         # form = UserCreationForm()

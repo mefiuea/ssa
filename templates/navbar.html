@@ -22,6 +22,7 @@
         </div>
     <form class="form-inline my-2 my-lg-0">
         {% if user.is_authenticated %}
+            <i class="fs-6 fw-lighter text-muted">{{ user.username }}</i>
             <a class="navbar-brand" href="{% url 'management_app:profile_view' %}">
                 <img src="{% static 'images/user_icon.svg' %}" width="40" height="40" alt="Profile">
             </a>

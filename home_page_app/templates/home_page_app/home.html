@@ -8,30 +8,66 @@
         {#    Posts#}
         <p class="text-center text">Wiadomości</p>
         <div class="d-flex justify-content-center mt-3 mb-4">
-            <div class="d-flex">
-                {% for post in posts_list_paginator %}
+            <div class="">
+                {% for post, profile, unique_id in posts_and_profiles_and_unique %}
                     <div class="card mb-3" style="max-width: 1000px;">
-                        <div class="card-header text-center">
+                        <div class="card-header text-center bg-light" style="border: 1px solid; border-bottom: 1px">
                             {{ post.owner }}
-                            <img src="{{ user_profile.profile_image.url }}" class="img-fluid rounded-circle z-depth-2"
+                            <img src="{{ profile.profile_image.url }}" class="img-fluid rounded-circle z-depth-2"
                                  style="object-fit: scale-down; width: 25px;" alt="Post picture">
                         </div>
                         <div class="row g-0">
                             <div class="">
-                                <div class="card-body h-100 text-center">
+                                <div class="card-body h-100 text-center" style="border: 1px solid">
                                     <h5 class="card-title">{{ post.title }}</h5>
                                     <p class="card-text">{{ post.description }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer text-muted text-center fw-lighter">
+                        <div class="card-footer text-muted text-center fw-lighter"
+                             style="border: 1px solid; border-top: 1px">
                             {{ post.created_date }} |
                             <img src="{% static 'images/like_user_icon.svg' %}"
                                  class="img-fluid rounded-circle z-depth-2"
                                  style="object-fit: scale-down; width: 20px;" alt="Post picture">
                             10
+                            {% if user.is_authenticated %}
+                                {% if creator_already_liked %}
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" id="unlike" name="unlike" value="{{ post.id }}">
+                                        <button type="submit" class="btn text-danger" name="unlike_button">
+                                            {{ post.id }}
+                                            Nie lubię to!
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" id="like" name="like" value="{{ post.id }}">
+                                        <button type="submit" class="btn text-success" name="like_button">
+                                            {{ post.id }}
+                                            Lubię to!
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
                         </div>
+                        <button class="btn btn-outline-secondary mt-3" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#{{ unique_id }}" aria-expanded="false" aria-controls="collapseExample">
+                            Zobacz zdjęcie
+                        </button>
+                        <div class="collapse" id="{{ unique_id }}">
+                            <div class="card">
+                                <img class="card-img-top img-thumbnail"
+                                     style="height: auto; width: auto; object-fit: scale-down"
+                                     src="{{ post.post_image.url }}" alt="Post picture">
+                            </div>
+                        </div>
+                        <a href="{% url 'home_page_app:thread_view' post.id %}" class="btn btn-outline-secondary mt-3 form-control">Zobacz
+                            wątek</a>
                     </div>
+                    <br><br>
                 {% endfor %}
             </div>
         </div>
@@ -42,7 +78,7 @@
             <div class="w-100">
                 <hr>
                 <p class="text-center text mt-5">Wydarzenia</p>
-                <div class="d-sm-flex">
+                <div class="d-sm-flex mb-5">
                     <div class="card-body" style="width: 25rem;">
                         <img src="{{ event0.event_image.url }}" class="card-img-top img-thumbnail"
                              alt="Event picture 1">

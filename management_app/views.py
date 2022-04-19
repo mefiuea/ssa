@@ -1,6 +1,3 @@
-import random
-import string
-
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -10,6 +7,7 @@ from django.core.paginator import Paginator
 
 from .forms import EventsForm, ProfileEditForm, OffersForm, PostForm
 from .models import Events, Profile, Offers, Post, Comment
+from custom.random_string import get_random_string
 
 
 @login_required(login_url='users_app:login_view')
@@ -18,11 +16,7 @@ def profile_view(request):
         pass
     if request.method == 'GET':
         user = User.objects.get(username=request.user)
-        try:
-            profile_instance = Profile.objects.get(owner=user.id)
-        except:
-            # create default profile for user if not exist
-            profile_instance = Profile.objects.create(owner=user)
+        profile_instance = Profile.objects.get(owner=user.id)
 
         return render(request, 'management_app/profile.html', context={
             'user': user,
@@ -153,12 +147,6 @@ def event_delete_view(request, event_id):
 
 @login_required(login_url='users_app:login_view')
 def persons_view(request):
-    def get_random_string(length):
-        # choose from all lowercase letter
-        letters = string.ascii_lowercase
-        result_str = ''.join(random.choice(letters) for i in range(length))
-        return result_str
-
     if request.method == 'POST':
         pass
 

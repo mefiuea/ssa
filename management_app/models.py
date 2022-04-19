@@ -31,7 +31,7 @@ class Events(models.Model):
 class Profile(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     profile_image = models.ImageField(upload_to='profiles_images/', blank=True, null=True, verbose_name='Zdjęcie', default='profiles_images/default_profile_icon.svg')
-    nick_name = models.CharField(max_length=20, blank=True, unique=True, verbose_name='Ksywa')
+    nick_name = models.CharField(max_length=20, blank=True, unique=False, verbose_name='Ksywa')
     best_place = models.CharField(max_length=20, blank=True, verbose_name='Ulubione miejsce')
     lead_replica = models.CharField(max_length=50, blank=True, verbose_name='Replika główna')
     additional_replica = models.CharField(max_length=50, blank=True, verbose_name='Replika dodatkowa')
@@ -78,7 +78,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.PROTECT)
     owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
-    description = models.TextField(verbose_name='Opis')
+    description = models.TextField(verbose_name='Dodaj komentarz')
     created_date = models.DateTimeField(auto_now_add=True)
 
 

@@ -21,4 +21,5 @@ urlpatterns = [
     path('add-post/', views.post_add_view, name='add_post_view'),
     path('thread/<int:post_id>', views.thread_view, name='thread_view'),
     path('post-edit-view/<int:post_id>/', views.post_edit_view, name='post_edit_view'),
+    path('comment-edit-view/<int:post_id>/<int:comment_id>', views.comment_edit_view, name='comment_edit_view'),
 ]

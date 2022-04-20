@@ -26,32 +26,7 @@
                         </div>
                         <div class="card-footer text-muted text-center fw-lighter"
                              style="border: 1px solid; border-top: 1px">
-                            {{ post.created_date }} |
-                            <img src="{% static 'images/like_user_icon.svg' %}"
-                                 class="img-fluid rounded-circle z-depth-2"
-                                 style="object-fit: scale-down; width: 20px;" alt="Post picture">
-                            10
-                            {% if user.is_authenticated %}
-                                {% if creator_already_liked %}
-                                    <form action="" method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" id="unlike" name="unlike" value="{{ post.id }}">
-                                        <button type="submit" class="btn text-danger" name="unlike_button">
-                                            {{ post.id }}
-                                            Nie lubię to!
-                                        </button>
-                                    </form>
-                                {% else %}
-                                    <form action="" method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" id="like" name="like" value="{{ post.id }}">
-                                        <button type="submit" class="btn text-success" name="like_button">
-                                            {{ post.id }}
-                                            Lubię to!
-                                        </button>
-                                    </form>
-                                {% endif %}
-                            {% endif %}
+                            {{ post.created_date }}
                         </div>
                         <button class="btn btn-outline-secondary mt-3" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#{{ unique_id }}" aria-expanded="false" aria-controls="collapseExample">

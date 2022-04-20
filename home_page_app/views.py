@@ -46,11 +46,6 @@ def home_page_view(request):
         posts_list = paginator_instance.get_page(page)
         nums = 'i' * posts_list.paginator.num_pages
 
-        context_message = None
-        storage = get_messages(request)
-        for message in storage:
-            context_message = bool(message)
-
         return render(request, 'home_page_app/home.html', context={'event0': event0,
                                                                    'event1': event1,
                                                                    'event2': event2,

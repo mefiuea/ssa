@@ -333,13 +333,20 @@ def thread_view(request, post_id):
         else:
             logged_user_is_creator_of_post = False
 
+        # check status if logged user is creator of comment
+        # for comment in
+        # if current_user_instance in comments:
+        #     logged_user_is_creator_of_comment = True
+        # else:
+        #     logged_user_is_creator_of_comment = False
+
         return render(request, 'management_app/thread.html', context={'posts_instance': post_instance,
-                                                                     'form': form,
-                                                                     'profile_owner_instance': profile_owner_instance,
-                                                                     'profile_commenter_instance': profile_commenter_instance,
-                                                                     'comments_profiles_list': comments_profiles_list,
-                                                                     'logged_user_already_liked': logged_user_already_liked,
-                                                                     'logged_user_is_creator_of_post': logged_user_is_creator_of_post})
+                                                                      'form': form,
+                                                                      'profile_owner_instance': profile_owner_instance,
+                                                                      'profile_commenter_instance': profile_commenter_instance,
+                                                                      'comments_profiles_list': comments_profiles_list,
+                                                                      'logged_user_already_liked': logged_user_already_liked,
+                                                                      'logged_user_is_creator_of_post': logged_user_is_creator_of_post})
 
 
 @login_required(login_url='users_app:login_view')
@@ -358,3 +365,22 @@ def post_edit_view(request, post_id):
         form = PostForm(instance=post_instance)
         return render(request, 'management_app/post_edit_view.html', context={'form': form,
                                                                               'post_instance': post_instance})
+
+
+@login_required(login_url='users_app:login_view')
+def comment_edit_view(request, post_id, comment_id):
+    if request.method == 'POST':
+        comment_instance = Comment.objects.get(pk=comment_id)
+        form = CommentForm(request.POST, instance=comment_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('management_app:thread_view', post_id)
+        else:
+            print('problem z walidacja')
+
+    if request.method == 'GET':
+        comment_instance = Comment.objects.get(pk=comment_id)
+        form = CommentForm(instance=comment_instance)
+        return render(request, 'management_app/comment_edit_view.html', context={'form': form,
+                                                                                 'comment_instance': comment_instance,
+                                                                                 'post_id': post_id})

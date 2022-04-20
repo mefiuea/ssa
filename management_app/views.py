@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 
-from .forms import EventsForm, ProfileEditForm, OffersForm, PostForm
+from .forms import EventsForm, ProfileEditForm, OffersForm, PostForm, CommentForm
 from .models import Events, Profile, Offers, Post, Comment
 from custom.random_string import get_random_string
 
@@ -274,3 +274,85 @@ def post_add_view(request):
     if request.method == 'GET':
         form = PostForm()
         return render(request, 'management_app/add_post.html', context={'form': form})
+
+
+@login_required(login_url='users_app:login_view')
+def thread_view(request, post_id):
+    if request.method == 'POST':
+        current_user_instance = request.user
+        # creating current post instance
+        post_instance = Post.objects.get(pk=post_id)
+
+        if 'add_comment_button' in request.POST:
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                form.instance.owner = current_user_instance
+                form.instance.post = post_instance
+                form.save()
+
+        if 'like_button' in request.POST:
+            # add logged user to post instance (many to many field)
+            post_instance.likes.add(current_user_instance)
+
+        if 'unlike_button' in request.POST:
+            # remove logged user to post instance (many to many field)
+            post_instance.likes.remove(current_user_instance)
+
+        return redirect('management_app:thread_view', post_id)
+
+    if request.method == 'GET':
+        current_user_instance = request.user
+        # get specific post from database
+        post_instance = Post.objects.get(pk=post_id)
+        # get profile of owner of this specific post
+        profile_owner_instance = Profile.objects.get(owner=post_instance.owner)
+        # get profile of current comment user (logged user)
+        profile_commenter_instance = Profile.objects.get(owner=request.user)
+        # get comments to this specific post
+        comments = Comment.objects.filter(post=post_instance).order_by('-created_date')
+        # get profiles of all commentators (persons who post comment)
+        profiles_commentators_list = []
+        for comment in comments:
+            profile_commentator_instance = Profile.objects.get(owner=comment.owner)
+            profiles_commentators_list.append(profile_commentator_instance)
+        # connecting two lists
+        comments_profiles_list = zip(comments, profiles_commentators_list)
+        # generate form
+        form = CommentForm()
+
+        # check status like/unlike buttons to current user
+        likes = post_instance.likes.all()
+        if current_user_instance in likes:
+            logged_user_already_liked = True
+        else:
+            logged_user_already_liked = False
+
+        # check status if logged user is creator of post
+        if post_instance.owner == current_user_instance:
+            logged_user_is_creator_of_post = True
+        else:
+            logged_user_is_creator_of_post = False
+
+        return render(request, 'management_app/thread.html', context={'posts_instance': post_instance,
+                                                                     'form': form,
+                                                                     'profile_owner_instance': profile_owner_instance,
+                                                                     'profile_commenter_instance': profile_commenter_instance,
+                                                                     'comments_profiles_list': comments_profiles_list,
+                                                                     'logged_user_already_liked': logged_user_already_liked,
+                                                                     'logged_user_is_creator_of_post': logged_user_is_creator_of_post})
+
+
+# @login_required(login_url='users_app:login_view')
+# def post_edit_view(request, post_id):
+#     if request.method == 'POST':
+#         event_instance = Events.objects.get(pk=)
+#         form = EventsForm(request.POST, request.FILES, instance=event_instance)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('management_app:event_detailed_view', )
+#
+#     if request.method == 'GET':
+#         event_instance = Events.objects.get(pk=)
+#         form = EventsForm(instance=event_instance)
+#         return render(request, 'management_app/event_edit_view.html', context={'form': form,
+#                                                                                'event_instance': event_instance})

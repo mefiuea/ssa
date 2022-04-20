@@ -35,22 +35,21 @@ def home_page_view(request):
         for _ in range(len(profiles_users_list)):
             unique_id_list.append(get_random_string(8))
 
-        # combination of two instances: the post and the corresponding profile (the creator of the post)
-        posts_profiles_unique = zip(posts_instance, profiles_users_list, unique_id_list)
-
-        # current_user_profile_instance = Profile.objects.get(owner=request.user)
-
         # setting Pagination
-        paginator_instance = Paginator(posts_instance, 12)
+        paginator_instance = Paginator(posts_instance, 3)
         page = request.GET.get('page')
-        posts_list = paginator_instance.get_page(page)
-        nums = 'i' * posts_list.paginator.num_pages
+        posts_instance_paginator = paginator_instance.get_page(page)
+        nums = 'i' * posts_instance_paginator.paginator.num_pages
+
+        # combination of three instances: the posts(from paginator), corresponding profile (the creator of the post) and
+        # unique number for bootstrap template
+        posts_profiles_unique = zip(posts_instance_paginator, profiles_users_list, unique_id_list)
 
         return render(request, 'home_page_app/home.html', context={'event0': event0,
                                                                    'event1': event1,
                                                                    'event2': event2,
                                                                    'posts_instance': posts_instance,
-                                                                   'posts_list_paginator': posts_list,
                                                                    'nums': nums,
                                                                    'posts_and_profiles_and_unique': posts_profiles_unique,
+                                                                   'posts_instance_paginator': posts_instance_paginator,
                                                                    })

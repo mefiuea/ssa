@@ -83,14 +83,14 @@ def event_detailed_view(request, event_id):
             event_instance = Events.objects.get(pk=event_id)
             # add user to event
             event_instance.participants.add(concerned_user_instance)
-            return redirect('management_app:event_detailed_view', event_id)
 
         if 'cancel_participation_button' in request.POST:
             concerned_user_instance = request.user
             event_instance = Events.objects.get(pk=event_id)
             # remove user from event
             event_instance.participants.remove(concerned_user_instance)
-            return redirect('management_app:event_detailed_view', event_id)
+
+        return redirect('management_app:event_detailed_view', event_id)
 
     if request.method == 'GET':
         creator_instance = request.user
@@ -315,8 +315,15 @@ def thread_view(request, post_id):
         for comment in comments:
             profile_commentator_instance = Profile.objects.get(owner=comment.owner)
             profiles_commentators_list.append(profile_commentator_instance)
+
+        # setting Pagination
+        paginator_instance = Paginator(comments, 6)
+        page = request.GET.get('page')
+        comments_instance_paginator = paginator_instance.get_page(page)
+        nums = 'i' * comments_instance_paginator.paginator.num_pages
+
         # connecting two lists
-        comments_profiles_list = zip(comments, profiles_commentators_list)
+        comments_profiles_list = zip(comments_instance_paginator, profiles_commentators_list)
         # generate form
         form = CommentForm()
 
@@ -333,20 +340,14 @@ def thread_view(request, post_id):
         else:
             logged_user_is_creator_of_post = False
 
-        # check status if logged user is creator of comment
-        # for comment in
-        # if current_user_instance in comments:
-        #     logged_user_is_creator_of_comment = True
-        # else:
-        #     logged_user_is_creator_of_comment = False
-
         return render(request, 'management_app/thread.html', context={'posts_instance': post_instance,
                                                                       'form': form,
                                                                       'profile_owner_instance': profile_owner_instance,
                                                                       'profile_commenter_instance': profile_commenter_instance,
                                                                       'comments_profiles_list': comments_profiles_list,
                                                                       'logged_user_already_liked': logged_user_already_liked,
-                                                                      'logged_user_is_creator_of_post': logged_user_is_creator_of_post})
+                                                                      'logged_user_is_creator_of_post': logged_user_is_creator_of_post,
+                                                                      'comments_instance_paginator': comments_instance_paginator})
 
 
 @login_required(login_url='users_app:login_view')

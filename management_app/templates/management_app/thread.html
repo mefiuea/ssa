@@ -128,5 +128,38 @@
             </div>
 
         </div>
+            {#    pagination#}
+
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center">
+
+                {% if comments_instance_paginator.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a>
+                    </li>
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ comments_instance_paginator.previous_page_number }}">Poprzednia
+                        strona</a></li>
+                {% endif %}
+
+                {#            {% for i in nums %}#}
+                {#                <li class="page-item" aria-current='page'><a class="page-link"#}
+                {#                                                             href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>#}
+                {#                </li>#}
+                {#            {% endfor %}#}
+
+                {% if comments_instance_paginator.has_next %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ comments_instance_paginator.next_page_number }}">Następna
+                        strona</a></li>
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ comments_instance_paginator.paginator.num_pages }}">&raquo;</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+            <div class="text-center mb-5">
+                Strona {{ comments_instance_paginator.number }} z {{ comments_instance_paginator.paginator.num_pages }}
+            </div>
+        </nav>
     </div>
 {% endblock %}

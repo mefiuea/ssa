@@ -342,17 +342,19 @@ def thread_view(request, post_id):
                                                                      'logged_user_is_creator_of_post': logged_user_is_creator_of_post})
 
 
-# @login_required(login_url='users_app:login_view')
-# def post_edit_view(request, post_id):
-#     if request.method == 'POST':
-#         event_instance = Events.objects.get(pk=)
-#         form = EventsForm(request.POST, request.FILES, instance=event_instance)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('management_app:event_detailed_view', )
-#
-#     if request.method == 'GET':
-#         event_instance = Events.objects.get(pk=)
-#         form = EventsForm(instance=event_instance)
-#         return render(request, 'management_app/event_edit_view.html', context={'form': form,
-#                                                                                'event_instance': event_instance})
+@login_required(login_url='users_app:login_view')
+def post_edit_view(request, post_id):
+    if request.method == 'POST':
+        post_instance = Post.objects.get(pk=post_id)
+        form = PostForm(request.POST, instance=post_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('management_app:thread_view', post_id)
+        else:
+            print('problem z walidacja')
+
+    if request.method == 'GET':
+        post_instance = Post.objects.get(pk=post_id)
+        form = PostForm(instance=post_instance)
+        return render(request, 'management_app/post_edit_view.html', context={'form': form,
+                                                                              'post_instance': post_instance})

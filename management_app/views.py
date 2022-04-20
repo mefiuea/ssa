@@ -106,11 +106,12 @@ def event_detailed_view(request, event_id):
         else:
             creator_already_take_part_in_event = False
 
-        # check if the logged-in user is the creator of the event
+        # check if logged-in user is the creator of the event
         if creator_instance == event_instance.owner:
             is_creator = True
         else:
             is_creator = False
+
         return render(request, 'management_app/event_detailed_view.html', context={'event': event_instance,
                                                                                    'participants': participants_list,
                                                                                    'is_creator': is_creator,

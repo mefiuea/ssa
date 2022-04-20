@@ -2,18 +2,32 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block title %}Strona domowa{% endblock %}
+{% block title %}Wątek{% endblock %}
 
 {% block content %}
     <div class="container-lg">
         <div class="d-flex justify-content-center mt-3 mb-4">
-            <div class="">
-                <div class="card mb-3" style="width: 1000px;">
-                    <img class="card-img-top"
-                         style="height: 400px; object-fit: scale-down"
-                         src="{{ posts_instance.post_image.url }}" alt="Post picture">
-                    <div class="card-header text-center bg-light" style="border: 1px solid; border-bottom: 1px">
+            <div class="w-75">
+                <div class="card mb-3" style="border: 1px solid;">
+
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            <img class="card-img-top"
+                                 style="height: 400px; object-fit: scale-down"
+                                 src="{{ posts_instance.post_image.url }}" alt="Post picture">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Zobacz zdjęcie
+                    </button>
+                    <div class="card-header text-center bg-light"
+                         style="border: 1px solid; border-bottom: 1px; border-top: 1px">
                         {{ posts_instance.owner }}
+                        <img src="{{ profile_owner_instance.profile_image.url }}"
+                             class="img-fluid rounded-circle z-depth-2"
+                             style="object-fit: scale-down; width: 25px;" alt="Post picture">
                     </div>
                     <div class="row g-0">
                         <div class="">
@@ -29,61 +43,83 @@
                         <img src="{% static 'images/like_user_icon.svg' %}"
                              class="img-fluid rounded-circle z-depth-2"
                              style="object-fit: scale-down; width: 20px;" alt="Post picture">
-                        10
-                        {% if user.is_authenticated %}
-                            {% if creator_already_liked %}
-                                <form action="" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" id="unlike" name="unlike" value="{{ posts_instance.id }}">
-                                    <button type="submit" class="btn text-danger" name="unlike_button">
-                                        {{ posts_instance.id }}
-                                        Nie lubię to!
-                                    </button>
-                                </form>
-                            {% else %}
-                                <form action="" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" id="like" name="like" value="{{ post.id }}">
-                                    <button type="submit" class="btn text-success" name="like_button">
-                                        {{ posts_instance.id }}
-                                        Lubię to!
-                                    </button>
-                                </form>
+                        {{ posts_instance.total_likes }}
+                        <div class="d-flex justify-content-center">
+                            {% if user.is_authenticated %}
+                                {% if logged_user_already_liked %}
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" id="unlike" name="unlike" value="{{ posts_instance.id }}">
+                                        <button type="submit" class="btn text-warning" name="unlike_button">
+                                            Nie lubię to!
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" id="like" name="like" value="{{ post.id }}">
+                                        <button type="submit" class="btn text-success" name="like_button">
+                                            Lubię to!
+                                        </button>
+                                    </form>
+                                {% endif %}
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    {% if logged_user_is_creator_of_post %}
+                                        <a href="" class="btn btn-primary mt-3">Edytuj</a>
+                                    {% endif %}
+                                </div>
                             {% endif %}
-                        {% endif %}
                     </div>
+                </div>
 
-                    {% for comment in comments %}
-                        <div class="container justify-content-center mt-5 border-left border-right">
-                            <div class="d-flex justify-content-center pt-3 pb-2"></div>
-                            <div class="d-flex justify-content-center py-2">
-                                <div class="second py-2 px-2"><span
-                                        class="text1">{{ comment.description }}</span>
-                                    <div class="d-flex justify-content-between py-1 pt-2">
-                                        <div>{{ comment.owner }}</div>
-                                        <div><span class="text3">{{ comment.created_date }}</span><span class="thumbup"><i
-                                                class="fa fa-thumbs-o-up"></i></span><span class="text4"></span></div>
+
+                <div class="">
+                    <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+                        <div class="card-body p-4">
+                            <div class="form-outline mb-4">
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    <i class="text-muted">{{ user }}</i>
+                                    <img src="{{ profile_commenter_instance.profile_image.url }}"
+                                         class="img-fluid rounded-circle z-depth-2"
+                                         style="object-fit: scale-down; width: 25px;" alt="Post picture">
+                                    <button type="submit" class="btn btn-primary form-control mt-3"
+                                            name="add_comment_button">
+                                        Dodaj!
+                                    </button>
+                                </form>
+                            </div>
+                            {% for comment, commentator in comments_profiles_list %}
+                                <div class="card mb-4">
+                                    <div class="card-body text-center">
+                                        <p>{{ comment.description }}</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <img src="{{ commentator.profile_image.url }}"
+                                                     class="img-fluid rounded-circle z-depth-2"
+                                                     style="object-fit: scale-down; width: 25px;"
+                                                     alt="Post picture">
+                                                <p class="small mb-0 ms-2">{{ comment.owner }}</p>
+                                            </div>
+                                            <div class="d-flex flex-row align-items-center">
+                                                <p class="small text-muted mb-0">{{ comment.created_date }}</p>
+                                                <i class="far fa-thumbs-up mx-2 fa-xs text-black"
+                                                   style="margin-top: -0.16rem;"></i>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    {% endfor %}
+                            {% endfor %}
 
-                    <form action="" method="post" class="mt-5">
-                        {% csrf_token %}
-                        {{ user }}
-                        {{ form|crispy }}
-                        <div class="col-md-12 text-center">
-                            <button type="submit" class="btn btn-primary form-control" name="add_comment_button">
-                                Dodaj!
-                            </button>
                         </div>
-                        <a href="{% url 'home_page_app:home_view' %}" class="btn btn-primary form-control mt-3">Powrót
-                            do strony głównej</a>
-                    </form>
+                    </div>
                 </div>
-                <br><br>
+
+
             </div>
+
         </div>
     </div>
 {% endblock %}

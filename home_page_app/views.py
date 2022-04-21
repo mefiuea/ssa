@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
 
-from management_app.models import Events, Post, Profile, Comment
+from management_app.models import Events, Post, Profile
 from custom.random_string import get_random_string
-
 
 
 def home_page_view(request):

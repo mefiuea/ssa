@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from django.views.generic import TemplateView
 from django.urls import reverse_lazy
-from django.contrib.auth.models import User
 
 from users_app.forms import RegistrationForm
 from management_app.models import Profile

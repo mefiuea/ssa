@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 
 from .forms import EventsForm, ProfileEditForm, OffersForm, PostForm, CommentForm
@@ -15,7 +15,8 @@ def profile_view(request):
     if request.method == 'POST':
         pass
     if request.method == 'GET':
-        user = User.objects.get(username=request.user)
+        users_instance = get_user_model()
+        user = users_instance.objects.get(username=request.user)
         profile_instance = Profile.objects.get(owner=user.id)
 
         return render(request, 'management_app/profile.html', context={

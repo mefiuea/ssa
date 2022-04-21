@@ -1,21 +1,15 @@
 import pytest
 
-
-def div_function(a, b):
-    if b == 0:
-        raise ZeroDivisionError('nie dziel przez 0')
-    return a / b
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
-@pytest.mark.parametrize('a, b, result', (
-        (0, 9, 0),
-        (0, 0, 0),
-        (1, 0, 1),
-        (1, 1, 1),
-        (4, 2, 2)
-))
-def test_div_function_by_0(a, b, result):
-    with pytest.raises(ZeroDivisionError):
-        di
+'''Test if 1 superuser is created during migrations'''
+@pytest.mark.django_db()
+def test_creating_superuser_in_migrations():
+    current_user_model = get_user_model()
+    count = current_user_model.objects.all().count()
+    assert count == 1
 
-    assert div_function(a, b) == result
+
+

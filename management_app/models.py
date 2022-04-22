@@ -66,7 +66,7 @@ class Post(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     title = models.CharField(max_length=200, verbose_name='Tytuł')
     post_image = models.ImageField(upload_to='posts_images/', verbose_name='Zdjęcie', blank=True,
-                                    default='posts_images/default_post_icon.svg')
+                                   default='posts_images/default_post_icon.svg')
     description = models.TextField(verbose_name='Opis')
     created_date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(get_user_model(), related_name='post_likes', blank=True)

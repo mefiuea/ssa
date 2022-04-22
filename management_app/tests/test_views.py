@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 import datetime
 from django.core.exceptions import ValidationError
 
-from management_app.models import Events, Post, Profile, Offers
+from management_app.models import Events, Post, Profile, Offers, Comment
 from management_app.forms import ProfileEditForm
 
 
@@ -174,7 +174,6 @@ class TestViews(TestCase):
 
         with pytest.raises(ValidationError):
             response_post2 = self.client.post(url, data={'type': 'S', 'title': 'test_title', 'price': 10000})
-            # self.assertEqual(response_post2.status_code, 302)
 
     def test_offer_detailed_view_GET(self):
         user = self.create_user_and_login()
@@ -223,3 +222,55 @@ class TestViews(TestCase):
         self.assertEqual(Offers.objects.all().count(), 1)
         resp_post = self.client.post(url)
         self.assertEqual(Offers.objects.all().count(), 0)
+
+    def test_post_add_view_GET(self):
+        self.create_user_and_login()
+        url = reverse('management_app:add_post_view')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'management_app/add_post.html')
+
+    def test_post_add_view_POST(self):
+        user = self.create_user_and_login()
+        # create 1 post
+        post_1 = Post.objects.create(owner=user, title='test_title', description='desc')
+        url = reverse('management_app:add_post_view')
+        response_post = self.client.post(url, data={'title': 't' * 200, 'description': 'desc'})
+        self.assertEqual(response_post.status_code, 302)
+        assert response_post.url == urls.reverse('home_page_app:home_view')
+
+        with pytest.raises(ValidationError):
+            response_post = self.client.post(url, data={'title': 't' * 201, 'description': 'desc'})
+
+    def test_thread_view_GET(self):
+        user = self.create_user_and_login()
+        # create empty profile for current user
+        Profile.objects.create(owner=user)
+        # create 1 post to display
+        post_1 = Post.objects.create(owner=user, title='test_title', description='desc')
+        url = reverse('management_app:thread_view', args=(post_1.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'management_app/thread.html')
+
+    def test_thread_view_POST(self):
+        user = self.create_user_and_login()
+        # create empty profile for current user
+        Profile.objects.create(owner=user)
+        # create 1 post to display
+        post_1 = Post.objects.create(owner=user, title='test_title', description='desc')
+        url = reverse('management_app:thread_view', args=(post_1.id,))
+
+        # add comment button on site. Check if redirect to the same page
+        # comments = Comment.objects.all().count()
+        # print('KOMENTARZE PRZED = ', comments)
+        # response_post = self.client.post(url, data={'owner': user, 'description': 'test_desc'})
+        response_post = self.client.post(url)
+        # comments = Comment.objects.all().count()
+        # print('KOMENTARZE PO = ', comments)
+
+        self.assertEqual(response_post.status_code, 302)
+        assert response_post.url == urls.reverse('management_app:thread_view', args=(post_1.id,))
+
+    def test_post_edit_view_GET(self):
+        pass

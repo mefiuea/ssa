@@ -11,10 +11,7 @@ def home_page_view(request):
 
     if request.method == 'GET':
 
-        events_instance = Events.objects.all().order_by('-date')
-        event0 = events_instance[0]
-        event1 = events_instance[1]
-        event2 = events_instance[2]
+        events_instance = Events.objects.all().order_by('-date')[:3]
 
         # get all posts from database ordered by data
         posts_instance = Post.objects.all().order_by('-created_date')
@@ -40,9 +37,7 @@ def home_page_view(request):
         # unique number for bootstrap template
         posts_profiles_unique = zip(posts_instance_paginator, profiles_users_list, unique_id_list)
 
-        return render(request, 'home_page_app/home.html', context={'event0': event0,
-                                                                   'event1': event1,
-                                                                   'event2': event2,
+        return render(request, 'home_page_app/home.html', context={'events_instance': events_instance,
                                                                    'posts_instance': posts_instance,
                                                                    'nums': nums,
                                                                    'posts_and_profiles_and_unique': posts_profiles_unique,

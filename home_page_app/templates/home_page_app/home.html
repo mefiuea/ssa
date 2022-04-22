@@ -90,37 +90,37 @@
                 <p class="text-center text mt-5">Wydarzenia</p>
                 <div class="d-sm-flex mb-5">
                     <div class="card-body" style="width: 25rem;">
-                        <img src="{{ event0.event_image.url }}" class="card-img-top img-thumbnail"
+                        <img src="{{ events_instance.0.event_image.url }}" class="card-img-top img-thumbnail"
                              alt="Event picture 1">
                         <div class="card text-center">
-                            <h5 class="card-title">{{ event0.title }}</h5>
-                            <p class="card-text">Data: <i>{{ event0.date }}</i></p>
-                            <p class="card-text">Miejsce: <i>{{ event0.place }}</i></p>
-                            <a href="{% url 'management_app:event_detailed_view' event0.id %}"
+                            <h5 class="card-title">{{ events_instance.0.title }}</h5>
+                            <p class="card-text">Data: <i>{{ events_instance.0.date }}</i></p>
+                            <p class="card-text">Miejsce: <i>{{ events_instance.0.place }}</i></p>
+                            <a href="{% url 'management_app:event_detailed_view' events_instance.0.id %}"
                                class="btn btn-primary form-control">Szczegóły</a>
                         </div>
                     </div>
 
                     <div class="card-body" style="width: 20rem;">
-                        <img src="{{ event1.event_image.url }}" class="card-img-top img-thumbnail"
+                        <img src="{{ events_instance.1.event_image.url }}" class="card-img-top img-thumbnail"
                              alt="Event picture 2">
                         <div class="card text-center">
-                            <h5 class="card-title">{{ event1.title }}</h5>
-                            <p class="card-text">Data: <i>{{ event1.date }}</i></p>
-                            <p class="card-text">Miejsce: <i>{{ event1.place }}</i></p>
-                            <a href="{% url 'management_app:event_detailed_view' event1.id %}"
+                            <h5 class="card-title">{{ events_instance.1.title }}</h5>
+                            <p class="card-text">Data: <i>{{ events_instance.1.date }}</i></p>
+                            <p class="card-text">Miejsce: <i>{{ events_instance.1.place }}</i></p>
+                            <a href="{% url 'management_app:event_detailed_view' events_instance.1.id %}"
                                class="btn btn-primary form-control">Szczegóły</a>
                         </div>
                     </div>
 
                     <div class="card-body" style="width: 15rem;">
-                        <img src="{{ event2.event_image.url }}" class="card-img-top img-thumbnail"
+                        <img src="{{ events_instance.2.event_image.url }}" class="card-img-top img-thumbnail"
                              alt="Event picture 3">
                         <div class="card text-center">
-                            <h5 class="card-title">{{ event2.title }}</h5>
-                            <p class="card-text">Data: <i>{{ event2.date }}</i></p>
-                            <p class="card-text">Miejsce: <i>{{ event2.place }}</i></p>
-                            <a href="{% url 'management_app:event_detailed_view' event2.id %}"
+                            <h5 class="card-title">{{ events_instance.2.title }}</h5>
+                            <p class="card-text">Data: <i>{{ events_instance.2.date }}</i></p>
+                            <p class="card-text">Miejsce: <i>{{ events_instance.2.place }}</i></p>
+                            <a href="{% url 'management_app:event_detailed_view' events_instance.2.id %}"
                                class="btn btn-primary form-control">Szczegóły</a>
                         </div>
                     </div>

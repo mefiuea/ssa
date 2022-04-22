@@ -9,7 +9,6 @@ from management_app.models import Profile
 
 def signup_view(request):
     if request.method == 'POST':
-        # form = UserCreationForm(request.POST)
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
@@ -19,7 +18,6 @@ def signup_view(request):
             Profile.objects.create(owner=user)
             return redirect(reverse_lazy('users_app:login_view'))
     else:
-        # form = UserCreationForm()
         form = RegistrationForm()
 
     return render(request, 'users_app/signup.html', context={'form': form})

@@ -17,7 +17,7 @@ def profile_view(request):
     if request.method == 'GET':
         users_instance = get_user_model()
         user = users_instance.objects.get(username=request.user)
-        profile_instance = Profile.objects.get(owner=user.id)
+        profile_instance = Profile.objects.get(owner=user)
 
         return render(request, 'management_app/profile.html', context={
             'user': user,

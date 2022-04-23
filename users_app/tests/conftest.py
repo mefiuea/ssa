@@ -2,7 +2,15 @@ import pytest
 
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from config import settings
 
+@pytest.fixture(scope='session')
+def django_db_setup():
+    settings.DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'HOST': 'db.example.com',
+        'NAME': 'external_db',
+    }
 
 '''Fixture to generate dictionary with user data to register'''
 @pytest.fixture

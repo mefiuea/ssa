@@ -1,10 +1,19 @@
 import pytest
+from config import settings
 
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 import datetime
 
 from management_app.models import Events, Post, Profile
+
+# @pytest.fixture(scope='session')
+# def django_db_setup():
+#     settings.DATABASES['default'] = {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'HOST': 'db.example.com',
+#         'NAME': 'external_db',
+#     }
 
 
 '''Fixture to generate 1 user'''

@@ -273,4 +273,45 @@ class TestViews(TestCase):
         assert response_post.url == urls.reverse('management_app:thread_view', args=(post_1.id,))
 
     def test_post_edit_view_GET(self):
-        pass
+        user = self.create_user_and_login()
+        # create 1 post to display
+        post_1 = Post.objects.create(owner=user, title='title1', description='desc test')
+        url = reverse('management_app:post_edit_view', args=(post_1.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'management_app/post_edit_view.html')
+
+    def test_post_edit_view_POST(self):
+        user = self.create_user_and_login()
+        # create 1 post to display
+        post_1 = Post.objects.create(owner=user, title='title1', description='desc test')
+        url = reverse('management_app:post_edit_view', args=(post_1.id,))
+        # edit data
+        # before POST method = save
+        self.assertEqual(Post.objects.get(owner=user).title, 'title1')
+        resp_post = self.client.post(url, data={'title': 'title edited', 'description': post_1.description})
+        self.assertEqual(Post.objects.get(owner=user).title, 'title edited')
+
+    def test_comment_edit_view_GET(self):
+        user = self.create_user_and_login()
+        # create 1 post to display
+        post_1 = Post.objects.create(owner=user, title='title1', description='desc test')
+        # create 1 comment to display
+        comment_1 = Comment.objects.create(owner=user, post=post_1, description='desc test')
+        url = reverse('management_app:comment_edit_view', args=(post_1.id, comment_1.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'management_app/comment_edit_view.html')
+
+    def test_comment_edit_view_POST(self):
+        user = self.create_user_and_login()
+        # create 1 post to display
+        post_1 = Post.objects.create(owner=user, title='title1', description='desc test')
+        # create 1 comment to display
+        comment_1 = Comment.objects.create(owner=user, post=post_1, description='desc test')
+        url = reverse('management_app:comment_edit_view', args=(post_1.id, comment_1.id,))
+        # edit data
+        # before POST method = save
+        self.assertEqual(Comment.objects.get(owner=user).description, 'desc test')
+        resp_post = self.client.post(url, data={'description': 'desc2'})
+        self.assertEqual(Comment.objects.get(owner=user).description, 'desc2')

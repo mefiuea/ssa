@@ -9,6 +9,7 @@ from management_app.models import Events, Post, Profile
 class TestHomePageViews(TestCase):
 
     def test_post_events_list_GET(self):
+        """Test to check status code after GET method and check rendered template"""
         client = Client()
         print('client: ', client)
 

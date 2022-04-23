@@ -1,11 +1,9 @@
 import pytest
-from config import settings
-
-from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 import datetime
 
-from management_app.models import Events, Post, Profile
+from management_app.models import Events
+
 
 # @pytest.fixture(scope='session')
 # def django_db_setup():
@@ -16,9 +14,9 @@ from management_app.models import Events, Post, Profile
 #     }
 
 
-'''Fixture to generate 1 user'''
 @pytest.fixture
 def fixture_create_test_user2():
+    """Fixture to generate 1 user"""
     print('RUN: fixture_create_test_user')
     # create user
     user_model = get_user_model()
@@ -30,9 +28,9 @@ def fixture_create_test_user2():
     return test_user
 
 
-'''Fixture to generate 1 event'''
 @pytest.fixture
 def fixture_generate_event(fixture_create_test_user2):
+    """Fixture to generate 1 event"""
     print('RUN: fixture_generate_event')
     event = Events.objects.create(owner=fixture_create_test_user2, title='title_test 1', place='place_test',
                                   date=datetime.date(2022, 4, 22), time=datetime.time(10, 33, 45))

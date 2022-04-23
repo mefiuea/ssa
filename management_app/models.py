@@ -5,6 +5,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Events(models.Model):
+    """Class to create table in database. This is Events class. Contains fields needed to describe event."""
     owner = models.ForeignKey(get_user_model(), related_name='event_creator', on_delete=models.PROTECT)
     title = models.CharField(max_length=200, unique=True, verbose_name='Tytuł')
     place = models.CharField(max_length=200, verbose_name='Miejsce')

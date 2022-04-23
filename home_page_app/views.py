@@ -6,6 +6,7 @@ from custom.random_string import get_random_string
 
 
 def home_page_view(request):
+    """Function to render main page. It includes list of post sorted by date and list of three newest events."""
     if request.method == 'POST':
         pass
 

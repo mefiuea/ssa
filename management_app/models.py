@@ -30,6 +30,7 @@ class Events(models.Model):
 
 
 class Profile(models.Model):
+    """Class to create table in database. This is Profile class. Contains fields needed to describe user profile."""
     owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     profile_image = models.ImageField(upload_to='profiles_images/', blank=True, null=True, verbose_name='Zdjęcie', default='profiles_images/default_profile_icon.svg')
     nick_name = models.CharField(max_length=20, blank=True, unique=False, verbose_name='Ksywa')
@@ -41,6 +42,7 @@ class Profile(models.Model):
 
 
 class Offers(models.Model):
+    """Class to create table in database. This is Offers class. Contains fields needed to describe offer in market."""
     owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     title = models.CharField(max_length=200, verbose_name='Tytuł')
     created_date = models.DateTimeField(auto_now_add=True)
@@ -64,6 +66,7 @@ class Offers(models.Model):
 
 
 class Post(models.Model):
+    """Class to create table in database. This is Post class. Contains fields needed to describe Post on main page."""
     owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     title = models.CharField(max_length=200, verbose_name='Tytuł')
     post_image = models.ImageField(upload_to='posts_images/', verbose_name='Zdjęcie', blank=True,
@@ -77,9 +80,9 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    """Class to create table in database. This is Comment class. Contains fields needed to describe
+    comment under posts."""
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.PROTECT)
     owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     description = models.TextField(verbose_name='Dodaj komentarz')
     created_date = models.DateTimeField(auto_now_add=True)
-
-

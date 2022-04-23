@@ -12,6 +12,8 @@ from custom.random_string import get_random_string
 
 @login_required(login_url='users_app:login_view')
 def profile_view(request):
+    """Function to display user profile. It contains information about user. It uses Profile model with User model.
+    HTML template for this view contains also buttons to redirect to create event, offer, post and edit profile."""
     if request.method == 'POST':
         pass
     if request.method == 'GET':
@@ -27,6 +29,8 @@ def profile_view(request):
 
 @login_required(login_url='users_app:login_view')
 def profile_edit_view(request, user_id):
+    """Function to display user profile information in editable view. By this view, it is possible to change
+    information in database about user profile."""
     if request.method == 'POST':
         instance = get_object_or_404(Profile, owner=user_id)
         form = ProfileEditForm(request.POST, request.FILES, instance=instance)
@@ -42,6 +46,7 @@ def profile_edit_view(request, user_id):
 
 @login_required(login_url='users_app:login_view')
 def event_add_view(request):
+    """Function to create event"""
     if request.method == 'POST':
         form = EventsForm(request.POST, request.FILES)
         if form.is_valid():
@@ -60,6 +65,7 @@ def event_add_view(request):
 
 # @login_required(login_url='users_app:login_view')
 def events_view(request):
+    """Function to display all events from database. This function also uses pagination."""
     if request.method == 'POST':
         pass
     if request.method == 'GET':
@@ -78,6 +84,8 @@ def events_view(request):
 
 @login_required(login_url='users_app:login_view')
 def event_detailed_view(request, event_id):
+    """Function to display detailed view of specific event (based on event id). Function also allows
+     to take part in specific event or edit or delete this event (if logged-in user is creator of this event)."""
     if request.method == 'POST':
         if 'participate_in_button' in request.POST:
             concerned_user_instance = request.user
@@ -121,6 +129,7 @@ def event_detailed_view(request, event_id):
 
 @login_required(login_url='users_app:login_view')
 def event_edit_view(request, event_id):
+    """Function to edit specific event."""
     if request.method == 'POST':
         event_instance = Events.objects.get(pk=event_id)
         form = EventsForm(request.POST, request.FILES, instance=event_instance)
@@ -137,6 +146,7 @@ def event_edit_view(request, event_id):
 
 @login_required(login_url='users_app:login_view')
 def event_delete_view(request, event_id):
+    """Function to confirm that user want to delete specific event."""
     if request.method == 'POST':
         event_instance = Events.objects.get(pk=event_id)
         event_instance.delete()
@@ -149,6 +159,8 @@ def event_delete_view(request, event_id):
 
 @login_required(login_url='users_app:login_view')
 def persons_view(request):
+    """Function to display all users from database with basic information about these users.
+    Also contains redirect button to detailed view of specific profil."""
     if request.method == 'POST':
         pass
 
@@ -177,6 +189,7 @@ def persons_view(request):
 
 @login_required(login_url='users_app:login_view')
 def offer_add_view(request):
+    """Function to create offer. Later this offer is displayed in market."""
     if request.method == 'POST':
         form = OffersForm(request.POST, request.FILES)
         if form.is_valid():
@@ -195,6 +208,8 @@ def offer_add_view(request):
 
 @login_required(login_url='users_app:login_view')
 def market_view(request):
+    """Function to display all offers from database with basic information about these offer.
+    Also contains redirect button to detailed view of specific offer."""
     if request.method == 'POST':
         pass
     if request.method == 'GET':
@@ -213,6 +228,8 @@ def market_view(request):
 
 @login_required(login_url='users_app:login_view')
 def offer_detailed_view(request, offer_id):
+    """Function to display detailed view of specific offer (based on offer id). Function also allows to edit or delete
+    this offer (if logged-in user is creator of this offer)."""
     if request.method == 'POST':
         pass
 
@@ -231,6 +248,7 @@ def offer_detailed_view(request, offer_id):
 
 @login_required(login_url='users_app:login_view')
 def offer_edit_view(request, offer_id):
+    """Function to edit specific offer."""
     if request.method == 'POST':
         offer_instance = Offers.objects.get(pk=offer_id)
         form = OffersForm(request.POST, request.FILES, instance=offer_instance)
@@ -249,6 +267,7 @@ def offer_edit_view(request, offer_id):
 
 @login_required(login_url='users_app:login_view')
 def offer_delete_view(request, offer_id):
+    """Function to confirm that user want to delete specific offer from database."""
     if request.method == 'POST':
         offer_instance = Offers.objects.get(pk=offer_id)
         offer_instance.delete()
@@ -261,6 +280,7 @@ def offer_delete_view(request, offer_id):
 
 @login_required(login_url='users_app:login_view')
 def post_add_view(request):
+    """Function to create post (message) on main page."""
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -279,6 +299,8 @@ def post_add_view(request):
 
 @login_required(login_url='users_app:login_view')
 def thread_view(request, post_id):
+    """Function to display detailed view of post (message). It allows to like or unlike specific post and also
+    allows to delete or edit post (if user is creator). On this view user can add comment for specific post"""
     if request.method == 'POST':
         current_user_instance = request.user
         # creating current post instance
@@ -353,6 +375,7 @@ def thread_view(request, post_id):
 
 @login_required(login_url='users_app:login_view')
 def post_edit_view(request, post_id):
+    """Function to edit specific post."""
     if request.method == 'POST':
         post_instance = Post.objects.get(pk=post_id)
         form = PostForm(request.POST, instance=post_instance)
@@ -371,6 +394,7 @@ def post_edit_view(request, post_id):
 
 @login_required(login_url='users_app:login_view')
 def comment_edit_view(request, post_id, comment_id):
+    """Function to edit specific comment."""
     if request.method == 'POST':
         comment_instance = Comment.objects.get(pk=comment_id)
         form = CommentForm(request.POST, instance=comment_instance)

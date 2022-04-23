@@ -6,6 +6,7 @@ import datetime
 class TestForms(TestCase):
 
     def test_events_form_valid_data(self):
+        """Test to check validation during creating event"""
         form = EventsForm(data={
             'title': 'event1',
             'place': 'place1',
@@ -18,6 +19,7 @@ class TestForms(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_events_form_no_data(self):
+        """Test to check validation during creating event - input with no data"""
         form = EventsForm(data={})
 
         self.assertFalse(form.is_valid())
@@ -25,6 +27,7 @@ class TestForms(TestCase):
         self.assertEqual(len(form.errors), 4)
 
     def test_offers_form_valid_data(self):
+        """Test to check validation during creating offer"""
         form = OffersForm(data={
             'title': 'offer1',
             'price': 100,

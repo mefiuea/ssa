@@ -8,6 +8,8 @@ from management_app.models import Profile
 
 
 def signup_view(request):
+    """Function to display registration form. It allows to signup user to database.
+    This function also creat empty profile for specific user."""
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -24,6 +26,7 @@ def signup_view(request):
 
 
 def login_view(request):
+    """Function to display login form. It allows authenticating user."""
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
@@ -41,6 +44,7 @@ def login_view(request):
 
 
 def logout_view(request):
+    """Function to display logout form. It allows deleting session for current user."""
     if request.method == 'POST':
         logout(request)
         return render(request, 'users_app/logged_out.html')

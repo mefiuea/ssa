@@ -12,7 +12,7 @@ def test_creating_superuser_in_migrations():
     """Test if 1 superuser is created during migrations"""
     current_user_model = get_user_model()
     count = current_user_model.objects.all().count()
-    assert count == 10
+    assert count == 21
 
 
 @pytest.mark.parametrize('param', (
@@ -39,10 +39,10 @@ class SignupFormTest(TestCase):
 def test_user_signup(client, fixture_user_data_for_register):
     """Test signup for user"""
     user_model = get_user_model()
-    assert user_model.objects.count() == 10
+    assert user_model.objects.count() == 21
     signup_url = urls.reverse('users_app:signup_view')
     resp = client.post(signup_url, fixture_user_data_for_register)
-    assert user_model.objects.count() == 11
+    assert user_model.objects.count() == 22
     assert resp.status_code == 302  # 302 code to redirect after POST method
 
 
@@ -50,7 +50,7 @@ def test_user_signup(client, fixture_user_data_for_register):
 def test_user_login(client, fixture_create_test_user, fixture_user_data_for_login):
     """Test login for user"""
     user_model = get_user_model()
-    assert user_model.objects.count() == 11
+    assert user_model.objects.count() == 22
     login_url = urls.reverse('users_app:login_view')
     resp = client.post(login_url, data=fixture_user_data_for_login)
     assert resp.status_code == 302

@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = int(os.environ.get('DEBUG', default=0))
-DEBUG = True
+DEBUG = False
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -188,4 +188,4 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 CSRF_TRUSTED_ORIGINS = ('https://coursesapplications.herokuapp.com/',)
 
-django_heroku.settings(locals())
+django_heroku.settings(locals(), staticfiles=False)

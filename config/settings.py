@@ -28,7 +28,8 @@ DEBUG = int(os.environ.get('DEBUG', default=0))
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split()
+# ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split()
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 INTERNAL_IPS = ALLOWED_HOSTS
 
 # Application definition

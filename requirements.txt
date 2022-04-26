@@ -4,6 +4,7 @@ coverage==6.3.2
 crispy-bootstrap5==0.6
 Django==4.0.4
 django-crispy-forms==1.14.0
+gunicorn==20.1.0
 iniconfig==1.1.1
 packaging==21.3
 Pillow==9.1.0
@@ -16,3 +17,4 @@ pytest-cov==3.0.0
 pytest-django==4.5.2
 sqlparse==0.4.2
 tomli==2.0.1
+whitenoise==6.0.0

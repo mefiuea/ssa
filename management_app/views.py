@@ -1,3 +1,4 @@
+import django.forms
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -38,6 +39,9 @@ def profile_edit_view(request, user_id):
             form.instance.owner = request.user
             form.save()
             return redirect(reverse_lazy('management_app:profile_view'))
+        else:
+            # Validation errors
+            return render(request, 'management_app/profile_edit.html', context={'form': form})
     else:
         instance = get_object_or_404(Profile, owner=user_id)
         form = ProfileEditForm(instance=instance)
@@ -54,9 +58,8 @@ def event_add_view(request):
             form.save()
             return redirect(reverse_lazy('management_app:profile_view'))
         else:
-            # TODO: obsłużyć błędy walidacji
-            # raise ValidationError("problem z walidacja!")
-            return redirect(reverse_lazy('management_app:profile_view'))
+            # Validation errors
+            return render(request, 'management_app/add_event.html', context={'form': form})
 
     if request.method == 'GET':
         form = EventsForm()
@@ -136,6 +139,10 @@ def event_edit_view(request, event_id):
         if form.is_valid():
             form.save()
             return redirect('management_app:event_detailed_view', event_id)
+        else:
+            # Validation errors
+            return render(request, 'management_app/event_edit_view.html', context={'form': form,
+                                                                                   'event_instance': event_instance})
 
     if request.method == 'GET':
         event_instance = Events.objects.get(pk=event_id)
@@ -197,9 +204,8 @@ def offer_add_view(request):
             form.save()
             return redirect(reverse_lazy('management_app:profile_view'))
         else:
-            # errors = form.errors
-            # TODO: obsłużyć błędy walidacji
-            raise ValidationError("problem z walidacja!")
+            # Validation errors
+            return render(request, 'management_app/add_offer.html', context={'form': form})
 
     if request.method == 'GET':
         form = OffersForm()
@@ -256,7 +262,9 @@ def offer_edit_view(request, offer_id):
             form.save()
             return redirect('management_app:offer_detailed_view', offer_id)
         else:
-            print(form.errors)
+            # Validation errors
+            return render(request, 'management_app/offer_edit_view.html', context={'form': form,
+                                                                                   'offer_instance': offer_instance})
 
     if request.method == 'GET':
         offer_instance = Offers.objects.get(pk=offer_id)
@@ -288,9 +296,8 @@ def post_add_view(request):
             form.save()
             return redirect(reverse_lazy('home_page_app:home_view'))
         else:
-            # errors = form.errors
-            # TODO: obsłużyć błędy walidacji
-            raise ValidationError("problem z walidacja!")
+            # Validation errors
+            return render(request, 'management_app/add_post.html', context={'form': form})
 
     if request.method == 'GET':
         form = PostForm()
@@ -312,6 +319,11 @@ def thread_view(request, post_id):
                 form.instance.owner = current_user_instance
                 form.instance.post = post_instance
                 form.save()
+            else:
+                profile_owner_instance = Profile.objects.get(owner=post_instance.owner)
+                return render(request, 'management_app/thread.html', context={'form': form,
+                                                                              'posts_instance': post_instance,
+                                                                              'profile_owner_instance': profile_owner_instance})
 
         if 'like_button' in request.POST:
             # add logged user to post instance (many to many field)
@@ -383,7 +395,9 @@ def post_edit_view(request, post_id):
             form.save()
             return redirect('management_app:thread_view', post_id)
         else:
-            print('problem z walidacja')
+            # Validation errors
+            return render(request, 'management_app/post_edit_view.html', context={'form': form,
+                                                                                  'post_instance': post_instance})
 
     if request.method == 'GET':
         post_instance = Post.objects.get(pk=post_id)
@@ -402,7 +416,10 @@ def comment_edit_view(request, post_id, comment_id):
             form.save()
             return redirect('management_app:thread_view', post_id)
         else:
-            print('problem z walidacja')
+            # Validation errors
+            return render(request, 'management_app/comment_edit_view.html', context={'form': form,
+                                                                                     'comment_instance': comment_instance,
+                                                                                     'post_id': post_id})
 
     if request.method == 'GET':
         comment_instance = Comment.objects.get(pk=comment_id)

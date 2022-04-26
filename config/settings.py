@@ -20,13 +20,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&powt@^*tgmd3r67@+(8d9=z5c6!=#%g73=#w5=p#_^@2ov&*#'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = int(os.environ.get('DEBUG', default=0))
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split()
+INTERNAL_IPS = ALLOWED_HOSTS
 
 # Application definition
 
@@ -164,6 +167,6 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-# DATE_INPUT_FORMATS = '%Y-%m-%d'
-
 # LOGIN_REDIRECT_URL = 'users_app:login_view'
+
+CSRF_TRUSTED_ORIGINS = ('https://coursesapplications.herokuapp.com/',)

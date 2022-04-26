@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
+import django_heroku
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -93,15 +94,12 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
     'default': {
-
+        'HOST': '127.0.0.1',
+        'NAME': os.environ.get('POSTGRES_SSA_DATABASE_NAME'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': os.environ.get('POSTGRES_SSA_DATABASE_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_APP_USER_PASSWORD'),
     }
-    # 'default': {
-    #     'HOST': '127.0.0.1',
-    #     'NAME': os.environ.get('POSTGRES_SSA_DATABASE_NAME'),
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'USER': os.environ.get('POSTGRES_SSA_DATABASE_USER'),
-    #     'PASSWORD': os.environ.get('POSTGRES_APP_USER_PASSWORD'),
-    # }
 }
 
 
@@ -174,3 +172,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # LOGIN_REDIRECT_URL = 'users_app:login_view'
 
 CSRF_TRUSTED_ORIGINS = ('https://coursesapplications.herokuapp.com/',)
+
+django_heroku.settings(locals())

@@ -93,12 +93,15 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
     'default': {
-        'HOST': '127.0.0.1',
-        'NAME': os.environ.get('POSTGRES_SSA_DATABASE_NAME'),
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': os.environ.get('POSTGRES_SSA_DATABASE_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_APP_USER_PASSWORD'),
+
     }
+    # 'default': {
+    #     'HOST': '127.0.0.1',
+    #     'NAME': os.environ.get('POSTGRES_SSA_DATABASE_NAME'),
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'USER': os.environ.get('POSTGRES_SSA_DATABASE_USER'),
+    #     'PASSWORD': os.environ.get('POSTGRES_APP_USER_PASSWORD'),
+    # }
 }
 
 

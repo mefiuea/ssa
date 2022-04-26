@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,12 +83,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-try:
-    from config.data_base_local_settings import DATABASES
-except ModuleNotFoundError:
-    print("Brak konfiguracji bazy danych w pliku local_settings.py!")
-    print("Uzupełnij dane i spróbuj ponownie!")
-    exit(0)
+DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    'default': {
+        'HOST': '127.0.0.1',
+        'NAME': os.environ.get('POSTGRES_SSA_DATABASE_NAME'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': os.environ.get('POSTGRES_SSA_DATABASE_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_APP_USER_PASSWORD'),
+    }
+}
 
 
 # Password validation

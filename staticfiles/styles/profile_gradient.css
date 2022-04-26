@@ -1,0 +1,16 @@
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #B8E2FE;
+
+    /*first version*/
+    /*background: -moz-linear-gradient(0deg, rgba(0, 174, 246, 1) 3%, rgba(184, 226, 254, 1) 35%);*/
+    /*background: -webkit-linear-gradient(0deg, rgba(0, 174, 246, 1) 3%, rgba(184, 226, 254, 1) 35%);*/
+    /*background: linear-gradient(0deg, rgba(0, 174, 246, 1) 3%, rgba(184, 226, 254, 1) 35%);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00aef6", endColorstr="#b8e2fe", GradientType=1);*/
+
+    /*second version*/
+    background: -moz-linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+    background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#22c1c3", endColorstr="#fdbb2d", GradientType=1);
+}

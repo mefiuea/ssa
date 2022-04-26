@@ -13,7 +13,7 @@ env/.env
 
 data_base_local_settings.py
 
-media/*
+#media/*
 
 # MAC
 .DS_Store

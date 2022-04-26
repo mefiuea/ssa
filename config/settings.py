@@ -191,4 +191,4 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 CSRF_TRUSTED_ORIGINS = ('https://coursesapplications.herokuapp.com/',)
 
-django_heroku.settings(locals())
+django_heroku.settings(locals(), staticfiles=False)

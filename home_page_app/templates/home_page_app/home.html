@@ -36,13 +36,13 @@
                         <div class="collapse" id="{{ unique_id }}">
                             <div class="card">
                                 {% if post.post_image %}
-                                <img class="card-img-top img-thumbnail"
-                                     style="height: auto; width: auto; object-fit: scale-down"
-                                     src="{{ post.post_image.url }}" alt="Post picture">
+                                    <img class="card-img-top img-thumbnail"
+                                         style="height: auto; width: auto; object-fit: scale-down"
+                                         src="{{ post.post_image.url }}" alt="Post picture">
                                 {% else %}
                                     <img class="card-img-top img-thumbnail"
-                                     style="height: auto; width: auto; object-fit: scale-down"
-                                     src="{% static 'images/default_post_icon.svg' %}" alt="Post picture">
+                                         style="height: auto; width: auto; object-fit: scale-down"
+                                         src="{% static 'images/default_post_icon.svg' %}" alt="Post picture">
                                 {% endif %}
                             </div>
                         </div>
@@ -91,76 +91,31 @@
 
 
         {#    Events#}
-        <div class="d-flex justify-content-center mt-3">
-            <div class="">
-                <hr>
-                <p class="text-center text mt-5">Wydarzenia</p>
-                <div class="d-sm-flex mb-5">
-                    <div class="d-block card-group">
-                        <div class="card mb-3">
+        <hr>
+        <p class="text-center text mt-5">Wydarzenia</p>
+        <div class="d-flex justify-content-center mt-3 mb-5">
+            <div class="w-75">
+                {% for event in events_instance %}
+                    <div class="card mb-3">
+                        {% if event.event_image %}
+                            <img src="{{ event.event_image.url }}"
+                                 class="card-img-top img-thumbnail"
+                                 alt="Event picture 1" style="max-height: 18rem; object-fit: scale-down">
+                        {% else %}
+                            <img src="{% static 'images/default_event_icon.svg' %}"
+                                 class="card-img-top img-thumbnail"
+                                 alt="Event picture 1" style="max-height: 18rem; object-fit: scale-down">
+                        {% endif %}
 
-                            {% if events_instance.0.event_image %}
-                                <img src="{{ events_instance.0.event_image.url }}"
-                                     class="card-img-top img-thumbnail"
-                                     alt="Event picture 1" style="max-height: 18rem; object-fit: scale-down">
-                            {% else %}
-                                <img src="{% static 'images/default_event_icon.svg' %}"
-                                     class="card-img-top img-thumbnail"
-                                     alt="Event picture 1" style="max-height: 18rem; object-fit: scale-down">
-                            {% endif %}
-
-                            <div class="card-body text-center">
-                                <h5 class="card-title">{{ events_instance.0.title }}</h5>
-                                <p class="card-text">Data: <i>{{ events_instance.0.date }}</i></p>
-                                <p class="card-text">Miejsce: <i>{{ events_instance.0.place }}</i></p>
-                            </div>
-                            <a href="{% url 'management_app:event_detailed_view' events_instance.0.id %}"
-                               class="btn btn-primary form-control">Szczegóły</a>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ event.title }}</h5>
+                            <p class="card-text">Data: <i>{{ event.date }}</i></p>
+                            <p class="card-text">Miejsce: <i>{{ event.place }}</i></p>
                         </div>
-
-                        <div class="card mb-3">
-
-                            {% if events_instance.1.event_image %}
-                                <img src="{{ events_instance.1.event_image.url }}"
-                                     class="card-img-top img-thumbnail"
-                                     alt="Event picture 2" style="max-height: 18rem; object-fit: scale-down">
-                            {% else %}
-                                <img src="{% static 'images/default_event_icon.svg' %}"
-                                     class="card-img-top img-thumbnail"
-                                     alt="Event picture 2" style="max-height: 18rem; object-fit: scale-down">
-                            {% endif %}
-
-                            <div class="card-body text-center">
-                                <h5 class="card-title">{{ events_instance.1.title }}</h5>
-                                <p class="card-text">Data: <i>{{ events_instance.1.date }}</i></p>
-                                <p class="card-text">Miejsce: <i>{{ events_instance.1.place }}</i></p>
-                            </div>
-                            <a href="{% url 'management_app:event_detailed_view' events_instance.1.id %}"
-                               class="btn btn-primary form-control">Szczegóły</a>
-                        </div>
-
-                        <div class="card mb-3">
-
-                            {% if events_instance.2.event_image %}
-                                <img src="{{ events_instance.2.event_image.url }}"
-                                     class="card-img-top img-thumbnail"
-                                     alt="Event picture 3" style="max-height: 18rem; object-fit: scale-down">
-                            {% else %}
-                                <img src="{% static 'images/default_event_icon.svg' %}"
-                                     class="card-img-top img-thumbnail"
-                                     alt="Event picture 3" style="max-height: 18rem; object-fit: scale-down">
-                            {% endif %}
-
-                            <div class="card-body text-center">
-                                <h5 class="card-title">{{ events_instance.2.title }}</h5>
-                                <p class="card-text">Data: <i>{{ events_instance.2.date }}</i></p>
-                                <p class="card-text">Miejsce: <i>{{ events_instance.2.place }}</i></p>
-                            </div>
-                            <a href="{% url 'management_app:event_detailed_view' events_instance.2.id %}"
-                               class="btn btn-primary form-control">Szczegóły</a>
-                        </div>
+                        <a href="{% url 'management_app:event_detailed_view' event.id %}"
+                           class="btn btn-primary form-control">Szczegóły</a>
                     </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

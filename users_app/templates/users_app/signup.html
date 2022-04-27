@@ -5,20 +5,22 @@
 {% block title %}Zarejestruj się{% endblock %}
 
 {% block content %}
-    <div class="row justify-content-center mt-3">
-        <div class="col-4">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="text-center text-uppercase mb-4">Rejestracja</h2>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <div class="col-md-12 text-center">
-                            <button type="submit" class="btn btn-primary form-control">Zarejestruj!</button>
-                        </div>
-                    </form>
+    <div class="container-lg">
+        <div class="row justify-content-center mt-3">
+            <div class="w-75">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-center text-uppercase mb-4">Rejestracja</h2>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary form-control">Zarejestruj!</button>
+                            </div>
+                        </form>
+                    </div>
+                    <a href="{% url 'users_app:login_view' %}" class="btn btn-link">Zaloguj się!</a>
                 </div>
-                <a href="{% url 'users_app:login_view' %}" class="btn btn-link">Zaloguj się!</a>
             </div>
         </div>
     </div>

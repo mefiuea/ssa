@@ -4,18 +4,22 @@
 {% block title %}Wylogowano{% endblock %}
 
 {% block content %}
-    <div class="row justify-content-center mt-3">
-        <div class="col-4">
+    <div class="container-lg">
+        <div class="row justify-content-center mt-3">
+            <div class="w-75">
                 <div class="alert alert-success text-center" role="alert">
                     <h4 class="alert-heading">Zostałeś wylogowany!</h4>
                     <p>Dziękujemy!</p>
                     <hr>
                     <p class="mb-3">
-                        <a href="{% url 'users_app:login_view' %}" class="btn btn-primary form-control">Zaloguj się ponownie</a>
+                        <a href="{% url 'users_app:login_view' %}" class="btn btn-primary form-control">Zaloguj się
+                            ponownie</a>
                     </p>
                     <p class="mb-0">
-                    <p><a href="{% url 'home_page_app:home_view' %}" class="btn btn-primary form-control">Powrót do strony głównej</a></p>
+                    <p><a href="{% url 'home_page_app:home_view' %}" class="btn btn-primary form-control">Powrót do
+                        strony głównej</a></p>
                 </div>
+            </div>
         </div>
     </div>
 {% endblock %}

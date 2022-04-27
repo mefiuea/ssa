@@ -31,7 +31,11 @@
                     </form>
                 </div>
             </div>
-            <img class="card-img-bottom" src="{{ offer.offer_image.url }}" alt="Card image cap">
+            {% if offer.offer_image %}
+                <img class="card-img-bottom" src="{{ offer.offer_image.url }}" alt="Offer image">
+            {% else %}
+                <img class="card-img-bottom" src="{% static 'images/default_offer_icon.svg' %}" alt="Offer image">
+            {% endif %}
         </div>
     </div>
 {% endblock %}

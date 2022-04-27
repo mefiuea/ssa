@@ -9,8 +9,13 @@
             <div class="w-75">
                 {% for offer in offers_list_paginator %}
                     <div class="card mb-5">
+                    {% if offer.offer_image %}
                         <img class="card-img-top img-thumbnail" style="height: 20rem; object-fit: scale-down"
                              src="{{ offer.offer_image.url }}" alt="Offer picture">
+                        {% else %}
+                        <img class="card-img-top img-thumbnail" style="height: 20rem; object-fit: scale-down"
+                             src="{% static 'images/default_offer_icon.svg' %}" alt="Offer picture">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">[{{ offer.type }}] {{ offer.title }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Cena PLN: {{ offer.price }}</h6>

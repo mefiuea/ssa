@@ -35,9 +35,15 @@
                         </button>
                         <div class="collapse" id="{{ unique_id }}">
                             <div class="card">
+                                {% if post.post_image %}
                                 <img class="card-img-top img-thumbnail"
                                      style="height: auto; width: auto; object-fit: scale-down"
                                      src="{{ post.post_image.url }}" alt="Post picture">
+                                {% else %}
+                                    <img class="card-img-top img-thumbnail"
+                                     style="height: auto; width: auto; object-fit: scale-down"
+                                     src="{% static 'images/default_post_icon.svg' %}" alt="Post picture">
+                                {% endif %}
                             </div>
                         </div>
                         <a href="{% url 'management_app:thread_view' post.id %}"
@@ -86,7 +92,7 @@
 
         {#    Events#}
         <div class="d-flex justify-content-center mt-3">
-            <div class="w-75">
+            <div class="">
                 <hr>
                 <p class="text-center text mt-5">Wydarzenia</p>
                 <div class="d-sm-flex mb-5">

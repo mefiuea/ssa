@@ -11,7 +11,7 @@ def home_page_view(request):
         pass
 
     if request.method == 'GET':
-        try:
+        # try:
             events_instance = Events.objects.all().order_by('-date')[:3]
 
             # get all posts from database ordered by data
@@ -45,5 +45,5 @@ def home_page_view(request):
                                                                        'posts_and_profiles_and_unique': posts_profiles_unique,
                                                                        'posts_instance_paginator': posts_instance_paginator,
                                                                        })
-        except:
-            return render(request, 'home_page_app/home_empty.html')
+        # except:
+        #     return render(request, 'home_page_app/home_empty.html')

@@ -427,3 +427,11 @@ def comment_edit_view(request, post_id, comment_id):
         return render(request, 'management_app/comment_edit_view.html', context={'form': form,
                                                                                  'comment_instance': comment_instance,
                                                                                  'post_id': post_id})
+
+
+def contact_view(request):
+    """Function to display contact information."""
+    if request.method == 'POST':
+        pass
+    if request.method == 'GET':
+        return render(request, 'management_app/contact_view.html')

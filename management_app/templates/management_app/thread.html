@@ -12,9 +12,15 @@
 
                     <div class="collapse" id="collapseExample">
                         <div class="card card-body">
-                            <img class="card-img-top"
-                                 style="height: 400px; object-fit: scale-down"
-                                 src="{{ posts_instance.post_image.url }}" alt="Post picture">
+                            {% if posts_instance.post_image %}
+                                <img class="card-img-top"
+                                     style="height: 400px; object-fit: scale-down"
+                                     src="{{ posts_instance.post_image.url }}" alt="Post picture">
+                            {% else %}
+                                <img class="card-img-top"
+                                     style="height: 400px; object-fit: scale-down"
+                                     src="{% static 'images/default_post_icon.svg' %}" alt="Post picture">
+                            {% endif %}
                         </div>
                     </div>
 

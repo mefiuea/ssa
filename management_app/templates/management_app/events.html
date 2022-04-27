@@ -6,59 +6,65 @@
 
 {% block content %}
     <div class="container-lg">
-    <div class="d-flex justify-content-center mt-3">
-        <div class="w-100">
-            {% for event in events_list_paginator %}
-                <div class="card mb-5">
-                    <img class="card-img-top img-thumbnail" style="height: 15rem; object-fit: cover"
-                         src="{{ event.event_image.url }}" alt="Event picture">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ event.title }}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Data wydarzenia: {{ event.date }}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">Godzina wydarzenia: {{ event.time }}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">Miejsce wydarzenia: {{ event.place }}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">Twórca wydarzenia: {{ event.owner }}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">Liczba
-                            uczestników: {{ event.participants.all.count }}</h6>
-                        <p><a href="{% url 'management_app:event_detailed_view' event.id %}"
-                              class="btn btn-primary form-control">Szczegóły wydarzenia</a></p>
-                        <p class="card-text"><small class="text-muted">Data utworzenia: {{ event.created_date }}</small>
-                        </p>
+        <div class="d-flex justify-content-center mt-3">
+            <div class="w-75">
+                {% for event in events_list_paginator %}
+                    <div class="card mb-5">
+                        <img class="card-img-top img-thumbnail" style="height: 15rem; object-fit: cover"
+                                {% if event.event_image %}
+                             src="{{ event.event_image.url }}" alt="Event picture">
+                                {% else %}
+                                    src="{% static 'images/default_event_icon.svg' %}" alt="Event picture">
+                                {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Data wydarzenia: {{ event.date }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Godzina wydarzenia: {{ event.time }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Miejsce wydarzenia: {{ event.place }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Twórca wydarzenia: {{ event.owner }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Liczba
+                                uczestników: {{ event.participants.all.count }}</h6>
+                            <p><a href="{% url 'management_app:event_detailed_view' event.id %}"
+                                  class="btn btn-primary form-control">Szczegóły wydarzenia</a></p>
+                            <p class="card-text"><small class="text-muted">Data
+                                utworzenia: {{ event.created_date }}</small>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
 
-    <nav aria-label="...">
-        <ul class="pagination justify-content-center">
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center">
 
-            {% if events_list_paginator.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a>
-                </li>
-                <li class="page-item"><a class="page-link"
-                                         href="?page={{ events_list_paginator.previous_page_number }}">Poprzednia
-                    strona</a></li>
-            {% endif %}
+                {% if events_list_paginator.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a>
+                    </li>
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ events_list_paginator.previous_page_number }}">Poprzednia
+                        strona</a></li>
+                {% endif %}
 
-            {#            {% for i in nums %}#}
-            {#                <li class="page-item" aria-current='page'><a class="page-link"#}
-            {#                                                             href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>#}
-            {#                </li>#}
-            {#            {% endfor %}#}
+                {#            {% for i in nums %}#}
+                {#                <li class="page-item" aria-current='page'><a class="page-link"#}
+                {#                                                             href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>#}
+                {#                </li>#}
+                {#            {% endfor %}#}
 
-            {% if events_list_paginator.has_next %}
-                <li class="page-item"><a class="page-link"
-                                         href="?page={{ events_list_paginator.next_page_number }}">Następna
-                    strona</a></li>
-                <li class="page-item"><a class="page-link"
-                                         href="?page={{ events_list_paginator.paginator.num_pages }}">&raquo;</a></li>
-            {% endif %}
+                {% if events_list_paginator.has_next %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ events_list_paginator.next_page_number }}">Następna
+                        strona</a></li>
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ events_list_paginator.paginator.num_pages }}">&raquo;</a>
+                    </li>
+                {% endif %}
 
-        </ul>
-        <div class="text-center mb-5">
-            Strona {{ events_list_paginator.number }} z {{ events_list_paginator.paginator.num_pages }}
-        </div>
-    </nav>
+            </ul>
+            <div class="text-center mb-5">
+                Strona {{ events_list_paginator.number }} z {{ events_list_paginator.paginator.num_pages }}
+            </div>
+        </nav>
     </div>
 {% endblock %}

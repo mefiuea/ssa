@@ -10,10 +10,10 @@
                 <div class="card" style="width: 25rem;">
                 {% if profile_user.profile_image %}
                     <img src="{{ profile_user.profile_image.url }}" class="card-img-top img-thumbnail "
-                         alt="Profile picture">
+                         alt="Profile picture" style="max-height: 20rem; object-fit: contain">
                     {% else %}
                     <img src="{% static 'images/user_icon.svg' %}" class="card-img-top img-thumbnail "
-                         alt="Profile picture">
+                         alt="Profile picture" style="max-height: 20rem; object-fit: contain">
                     {% endif %}
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ profile_user.owner.username }}</h5>

@@ -14,10 +14,10 @@ class Events(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     date = models.DateField(verbose_name='Data rozpoczęcia')
     time = models.TimeField(verbose_name='Godzina rozpoczęcia')
-    description = models.TextField(blank=True, verbose_name='Opis', validators=[MaxLengthValidator(700)])
+    description = models.TextField(blank=True, verbose_name='Opis', validators=[MaxLengthValidator(2000)])
     participants = models.ManyToManyField(get_user_model(), related_name='event_participants', blank=True)
     event_image = models.ImageField(upload_to='events_images/', blank=True, null=True, verbose_name='Zdjęcie',
-                                    default='events_images/default_event_icon.svg', validators=[picture_size])
+                                    validators=[picture_size])
     slug = models.SlugField(max_length=200, blank=True)
 
     def __str__(self):
@@ -50,13 +50,13 @@ class Offers(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     title = models.CharField(max_length=200, verbose_name='Tytuł')
     created_date = models.DateTimeField(auto_now_add=True)
-    offer_image = models.ImageField(upload_to='offers_images/', verbose_name='Zdjęcie', blank=True,
-                                    default='offers_images/default_offer_icon.svg', validators=[picture_size])
+    offer_image = models.ImageField(upload_to='offers_images/', verbose_name='Zdjęcie', blank=True, null=True,
+                                    validators=[picture_size])
     slug = models.SlugField(max_length=200, blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Cena PLN',
                                 validators=[MinValueValidator(0), MaxValueValidator(10000)], default=0.00)
     url = models.URLField(max_length=200, blank=True, verbose_name='Url')
-    description = models.TextField(blank=True, verbose_name='Opis', validators=[MaxLengthValidator(700)])
+    description = models.TextField(blank=True, verbose_name='Opis', validators=[MaxLengthValidator(1200)])
     CONDITION_CHOICES = [
         ('N', 'Nowy'),
         ('U', 'Używany'),
@@ -74,8 +74,8 @@ class Post(models.Model):
     """Class to create table in database. This is Post class. Contains fields needed to describe Post on main page."""
     owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     title = models.CharField(max_length=200, verbose_name='Tytuł')
-    post_image = models.ImageField(upload_to='posts_images/', verbose_name='Zdjęcie', blank=True,
-                                   default='posts_images/default_post_icon.svg', validators=[picture_size])
+    post_image = models.ImageField(upload_to='posts_images/', verbose_name='Zdjęcie', blank=True, null=True,
+                                   validators=[picture_size])
     description = models.TextField(verbose_name='Opis', validators=[MaxLengthValidator(700)])
     created_date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(get_user_model(), related_name='post_likes', blank=True)

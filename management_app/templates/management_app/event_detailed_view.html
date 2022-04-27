@@ -45,7 +45,11 @@
                     </form>
                 </div>
             </div>
-            <img class="card-img-bottom" src="{{ event.event_image.url }}" alt="Card image cap">
+            {% if event.event_image %}
+                <img class="card-img-bottom" src="{{ event.event_image.url }}" alt="Card image cap">
+            {% else %}
+                <img class="card-img-bottom" src="{% static 'images/default_event_icon.svg' %}" alt="Card image cap">
+            {% endif %}
         </div>
     </div>
 {% endblock %}

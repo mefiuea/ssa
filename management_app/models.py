@@ -35,8 +35,8 @@ class Events(models.Model):
 class Profile(models.Model):
     """Class to create table in database. This is Profile class. Contains fields needed to describe user profile."""
     owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
-    profile_image = models.ImageField(upload_to='images/', blank=True, null=True, verbose_name='Zdjęcie',
-                                      default='profiles_images/default_profile_icon.svg', validators=[picture_size])
+    profile_image = models.ImageField(upload_to='profiles_images/', blank=True, null=True, verbose_name='Zdjęcie',
+                                      validators=[picture_size])
     nick_name = models.CharField(max_length=20, blank=True, unique=False, verbose_name='Ksywa')
     best_place = models.CharField(max_length=20, blank=True, verbose_name='Ulubione miejsce')
     lead_replica = models.CharField(max_length=50, blank=True, verbose_name='Replika główna')

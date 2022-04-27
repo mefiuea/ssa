@@ -8,8 +8,13 @@
         <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
             {% for profile_user, unique_id in pagination_unique_list %}
                 <div class="card" style="width: 25rem;">
+                {% if profile_user.profile_image %}
                     <img src="{{ profile_user.profile_image.url }}" class="card-img-top img-thumbnail "
                          alt="Profile picture">
+                    {% else %}
+                    <img src="{% static 'images/user_icon.svg' %}" class="card-img-top img-thumbnail "
+                         alt="Profile picture">
+                    {% endif %}
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ profile_user.owner.username }}</h5>
                         <p>

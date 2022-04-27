@@ -23,13 +23,14 @@ def home_page_view(request):
                 profile_user_instance = Profile.objects.get(owner=pi.owner)
                 profiles_users_list.append(profile_user_instance)
 
+
             # generate random string for templates for unique collapse id (only letters)
             unique_id_list = []
             for _ in range(len(profiles_users_list)):
                 unique_id_list.append(get_random_string(8))
 
             # setting Pagination
-            paginator_instance = Paginator(posts_instance, 3)
+            paginator_instance = Paginator(posts_instance, 4)
             page = request.GET.get('page')
             posts_instance_paginator = paginator_instance.get_page(page)
             nums = 'i' * posts_instance_paginator.paginator.num_pages

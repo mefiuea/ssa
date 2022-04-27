@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = int(os.environ.get('DEBUG', default=0))
-DEBUG = False
+DEBUG = True
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -91,17 +91,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
     # 'default': {
-    #     'HOST': '127.0.0.1',
-    #     'NAME': os.environ.get('POSTGRES_SSA_DATABASE_NAME'),
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'USER': os.environ.get('POSTGRES_SSA_DATABASE_USER'),
-    #     'PASSWORD': os.environ.get('POSTGRES_APP_USER_PASSWORD'),
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
+    'default': {
+        'HOST': '127.0.0.1',
+        'NAME': os.environ.get('POSTGRES_SSA_DATABASE_NAME'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': os.environ.get('POSTGRES_SSA_DATABASE_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_APP_USER_PASSWORD'),
+    }
 }
 
 # DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -111,8 +111,8 @@ DATABASES = {
 
 # DATABASES['default'].update(db_from_env)
 
-db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config()
+# DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -191,4 +191,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 CSRF_TRUSTED_ORIGINS = ('https://coursesapplications.herokuapp.com/',)
 
-django_heroku.settings(locals())
+if DEBUG is False:
+    django_heroku.settings(locals())
+else:
+    django_heroku.settings(locals(), databases=False)

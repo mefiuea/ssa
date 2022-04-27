@@ -8,13 +8,14 @@
         {#    Posts#}
         <p class="text-center text">Wiadomości</p>
         <div class="d-flex justify-content-center mt-3">
-            <div class="">
+            <div class="w-75">
                 {% for post, profile, unique_id in posts_and_profiles_and_unique %}
                     <div class="card mb-3" style="max-width: 1000px;">
                         <div class="card-header text-center bg-light" style="border: 1px solid; border-bottom: 1px">
                             {{ post.owner }}
-                            <img src="{{ profile.profile_image.url }}" class="img-fluid rounded-circle z-depth-2"
-                                 style="object-fit: scale-down; width: 25px;" alt="Post picture">
+{#                                <img src="{% static 'images/user_icon.svg' %}"#}
+{#                                     class="img-fluid rounded-circle z-depth-2"#}
+{#                                     style="object-fit: scale-down; width: 25px;" alt="Post picture">#}
                         </div>
                         <div class="row g-0">
                             <div class="">

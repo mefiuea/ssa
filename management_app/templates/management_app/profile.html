@@ -18,12 +18,21 @@
                             <div class="row g-0">
                                 <div class="col-md-4 gradient-custom text-center text-white"
                                      style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                                    <img
-                                            src="{{ profile_instance.profile_image.url }}"
-                                            alt="Avatar"
-                                            class="img-fluid my-5 rounded-circle z-depth-2"
-                                            style="width: 150px;"
-                                    />
+                                    {% if profile_instance.profile_image %}
+                                        <img
+                                                src="{{ profile_instance.profile_image.url }}"
+                                                alt="Avatar"
+                                                class="img-fluid my-5 rounded-circle z-depth-2"
+                                                style="width: 150px;"
+                                        />
+                                    {% else %}
+                                        <img
+                                                src="{% static 'images/user_icon.svg' %}"
+                                                alt="Avatar"
+                                                class="img-fluid my-5 rounded-circle z-depth-2"
+                                                style="width: 150px;"
+                                        />
+                                    {% endif %}
                                     <h5><i>{{ user.username }}</i></h5>
                                     <p><i>id: {{ user.id }}</i></p>
                                     <p>
@@ -76,9 +85,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="{% url 'management_app:add_event_view' %}" class="btn btn-outline-primary mt-3">Stwórz wydarzenie</a>
-                                <a href="{% url 'management_app:add_offer_view' %}" class="btn btn-outline-secondary mt-3">Dodaj ogłoszenie na giełdzie</a>
-                                <a href="{% url 'management_app:add_post_view' %}" class="btn btn-outline-primary mt-3">Dodaj wiadomość na stronie głównej</a>
+                                <a href="{% url 'management_app:add_event_view' %}"
+                                   class="btn btn-outline-primary mt-3">Stwórz wydarzenie</a>
+                                <a href="{% url 'management_app:add_offer_view' %}"
+                                   class="btn btn-outline-secondary mt-3">Dodaj ogłoszenie na giełdzie</a>
+                                <a href="{% url 'management_app:add_post_view' %}" class="btn btn-outline-primary mt-3">Dodaj
+                                    wiadomość na stronie głównej</a>
                                 <a href="" class="btn btn-outline-secondary mt-3">Dodaj ankietę na stronie głównej</a>
                                 <a href="" class="btn btn-outline-primary mt-3">Dodaj miejsce</a>
                             </div>

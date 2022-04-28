@@ -5,34 +5,94 @@
 {% block title %}Wątek{% endblock %}
 
 {% block content %}
-    <div class="container-lg">
-        <div class="d-flex justify-content-center mt-3 mb-4">
-            <div class="w-75">
-                <div class="card mb-3" style="border: 1px solid;">
+    <div class="container-lg mb-5">
+        <div class="card mx-auto mb-3" style="max-width: 1000px; border: 1px solid;">
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    {% if posts_instance.post_image %}
+                        <img class="card-img-top"
+                             style="height: 400px; object-fit: scale-down"
+                             src="{{ posts_instance.post_image.url }}" alt="Post picture">
+                    {% else %}
+                        <img class="card-img-top"
+                             style="height: 400px; object-fit: scale-down"
+                             src="{% static 'images/default_post_icon.svg' %}" alt="Post picture">
+                    {% endif %}
+                </div>
+            </div>
 
-                    <div class="collapse" id="collapseExample">
-                        <div class="card card-body">
-                            {% if posts_instance.post_image %}
-                                <img class="card-img-top"
-                                     style="height: 400px; object-fit: scale-down"
-                                     src="{{ posts_instance.post_image.url }}" alt="Post picture">
-                            {% else %}
-                                <img class="card-img-top"
-                                     style="height: 400px; object-fit: scale-down"
-                                     src="{% static 'images/default_post_icon.svg' %}" alt="Post picture">
+            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Zobacz zdjęcie
+            </button>
+            <div class="card-header text-center bg-light"
+                 style="border: 1px solid; border-bottom: 1px; border-top: 1px">
+                {{ posts_instance.owner }}
+                {% if profile_owner_instance.profile_image %}
+                    <img src="{{ profile_owner_instance.profile_image.url }}"
+                         class="img-fluid rounded-circle z-depth-2"
+                         style="object-fit: scale-down; width: 25px;" alt="Post picture">
+                {% else %}
+                    <img src="{% static 'images/user_icon.svg' %}"
+                         class="img-fluid rounded-circle z-depth-2"
+                         style="object-fit: scale-down; width: 25px;" alt="Post picture">
+                {% endif %}
+            </div>
+            <div class="row g-0">
+                <div class="">
+                    <div class="card-body h-100 text-center" style="border: 1px solid">
+                        <h5 class="card-title">{{ posts_instance.title }}</h5>
+                        <p class="card-text">{{ posts_instance.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-muted text-center fw-lighter"
+                 style="border: 1px solid; border-top: 1px">
+                {{ posts_instance.created_date }} |
+                <img src="{% static 'images/like_user_icon.svg' %}"
+                     class="img-fluid rounded-circle z-depth-2"
+                     style="object-fit: scale-down; width: 20px;" alt="Post picture">
+                {{ posts_instance.total_likes }}
+                <div class="d-flex justify-content-center">
+                    {% if user.is_authenticated %}
+                        {% if logged_user_already_liked %}
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="unlike" name="unlike" value="{{ posts_instance.id }}">
+                                <button type="submit" class="btn text-warning" name="unlike_button">
+                                    Nie lubię to!
+                                </button>
+                            </form>
+                        {% else %}
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="like" name="like" value="{{ posts_instance.id }}">
+                                <button type="submit" class="btn text-success" name="like_button">
+                                    Lubię to!
+                                </button>
+                            </form>
+                        {% endif %}
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            {% if logged_user_is_creator_of_post %}
+                                <a href="{% url 'management_app:post_edit_view' posts_instance.id %}"
+                                   class="btn btn-primary mt-3">Edytuj</a>
                             {% endif %}
                         </div>
-                    </div>
+                    {% endif %}
+            </div>
+        </div>
 
-                    <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Zobacz zdjęcie
-                    </button>
-                    <div class="card-header text-center bg-light"
-                         style="border: 1px solid; border-bottom: 1px; border-top: 1px">
-                        {{ posts_instance.owner }}
-                        {% if profile_owner_instance.profile_image %}
-                            <img src="{{ profile_owner_instance.profile_image.url }}"
+        {#                komentarze#}
+        <div class="card mx-auto shadow-0 border" style="max-width: 1000px; background-color: #f0f2f5;">
+            <div class="card-body p-4">
+                <div class="form-outline mb-4">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <i class="text-muted">{{ user }}</i>
+                        {% if profile_commenter_instance.profile_image %}
+                            <img src="{{ profile_commenter_instance.profile_image.url }}"
                                  class="img-fluid rounded-circle z-depth-2"
                                  style="object-fit: scale-down; width: 25px;" alt="Post picture">
                         {% else %}
@@ -40,151 +100,81 @@
                                  class="img-fluid rounded-circle z-depth-2"
                                  style="object-fit: scale-down; width: 25px;" alt="Post picture">
                         {% endif %}
-                    </div>
-                    <div class="row g-0">
-                        <div class="">
-                            <div class="card-body h-100 text-center" style="border: 1px solid">
-                                <h5 class="card-title">{{ posts_instance.title }}</h5>
-                                <p class="card-text">{{ posts_instance.description }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer text-muted text-center fw-lighter"
-                         style="border: 1px solid; border-top: 1px">
-                        {{ posts_instance.created_date }} |
-                        <img src="{% static 'images/like_user_icon.svg' %}"
-                             class="img-fluid rounded-circle z-depth-2"
-                             style="object-fit: scale-down; width: 20px;" alt="Post picture">
-                        {{ posts_instance.total_likes }}
-                        <div class="d-flex justify-content-center">
-                            {% if user.is_authenticated %}
-                                {% if logged_user_already_liked %}
-                                    <form action="" method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" id="unlike" name="unlike" value="{{ posts_instance.id }}">
-                                        <button type="submit" class="btn text-warning" name="unlike_button">
-                                            Nie lubię to!
-                                        </button>
-                                    </form>
-                                {% else %}
-                                    <form action="" method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" id="like" name="like" value="{{ posts_instance.id }}">
-                                        <button type="submit" class="btn text-success" name="like_button">
-                                            Lubię to!
-                                        </button>
-                                    </form>
-                                {% endif %}
-                                </div>
-                                <div class="d-flex justify-content-end">
-                                    {% if logged_user_is_creator_of_post %}
-                                        <a href="{% url 'management_app:post_edit_view' posts_instance.id %}"
-                                           class="btn btn-primary mt-3">Edytuj</a>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                    </div>
+                        <button type="submit" class="btn btn-primary form-control mt-3"
+                                name="add_comment_button">
+                            Dodaj!
+                        </button>
+                    </form>
                 </div>
-
-                {#                komentarze#}
-                <div class="">
-                    <div class="card shadow-0 border" style="background-color: #f0f2f5;">
-                        <div class="card-body p-4">
-                            <div class="form-outline mb-4">
-                                <form action="" method="post">
-                                    {% csrf_token %}
-                                    {{ form|crispy }}
-                                    <i class="text-muted">{{ user }}</i>
-                                    {% if profile_commenter_instance.profile_image %}
-                                        <img src="{{ profile_commenter_instance.profile_image.url }}"
+                {% for comment, commentator in comments_profiles_list %}
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <p>{{ comment.description }}</p>
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex flex-row align-items-center">
+                                    {% if commentator.profile_image %}
+                                        <img src="{{ commentator.profile_image.url }}"
                                              class="img-fluid rounded-circle z-depth-2"
-                                             style="object-fit: scale-down; width: 25px;" alt="Post picture">
+                                             style="object-fit: scale-down; width: 25px;"
+                                             alt="Post picture">
                                     {% else %}
                                         <img src="{% static 'images/user_icon.svg' %}"
                                              class="img-fluid rounded-circle z-depth-2"
-                                             style="object-fit: scale-down; width: 25px;" alt="Post picture">
+                                             style="object-fit: scale-down; width: 25px;"
+                                             alt="Post picture">
                                     {% endif %}
-                                    <button type="submit" class="btn btn-primary form-control mt-3"
-                                            name="add_comment_button">
-                                        Dodaj!
-                                    </button>
-                                </form>
-                            </div>
-                            {% for comment, commentator in comments_profiles_list %}
-                                <div class="card mb-4">
-                                    <div class="card-body text-center">
-                                        <p>{{ comment.description }}</p>
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                {% if commentator.profile_image %}
-                                                    <img src="{{ commentator.profile_image.url }}"
-                                                         class="img-fluid rounded-circle z-depth-2"
-                                                         style="object-fit: scale-down; width: 25px;"
-                                                         alt="Post picture">
-                                                {% else %}
-                                                    <img src="{% static 'images/user_icon.svg' %}"
-                                                         class="img-fluid rounded-circle z-depth-2"
-                                                         style="object-fit: scale-down; width: 25px;"
-                                                         alt="Post picture">
-                                                {% endif %}
-                                                <p class="small mb-0 ms-2">{{ comment.owner }}</p>
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                                <p class="small text-muted mb-0">{{ comment.created_date }}</p>
-                                                <i class="far fa-thumbs-up mx-2 fa-xs text-black"
-                                                   style="margin-top: -0.16rem;"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% if comment.owner == user %}
-                                        <div class="d-flex justify-content-end">
-                                            <a href="{% url 'management_app:comment_edit_view' posts_instance.id comment.id %}"
-                                               class="btn">Edytuj</a>
-                                        </div>
-                                    {% endif %}
+                                    <p class="small mb-0 ms-2">{{ comment.owner }}</p>
                                 </div>
-                            {% endfor %}
-
+                                <div class="d-flex flex-row align-items-center">
+                                    <p class="small text-muted mb-0">{{ comment.created_date }}</p>
+                                    <i class="far fa-thumbs-up mx-2 fa-xs text-black"
+                                       style="margin-top: -0.16rem;"></i>
+                                </div>
+                            </div>
                         </div>
+                        {% if comment.owner == user %}
+                            <div class="d-flex justify-content-end">
+                                <a href="{% url 'management_app:comment_edit_view' posts_instance.id comment.id %}"
+                                   class="btn">Edytuj</a>
+                            </div>
+                        {% endif %}
                     </div>
-                </div>
-
+                {% endfor %}
 
             </div>
-
         </div>
-        {#    pagination#}
-
-        <nav aria-label="...">
-            <ul class="pagination justify-content-center">
-
-                {% if comments_instance_paginator.has_previous %}
-                    <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a>
-                    </li>
-                    <li class="page-item"><a class="page-link"
-                                             href="?page={{ comments_instance_paginator.previous_page_number }}">Poprzednia
-                        strona</a></li>
-                {% endif %}
-
-                {#            {% for i in nums %}#}
-                {#                <li class="page-item" aria-current='page'><a class="page-link"#}
-                {#                                                             href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>#}
-                {#                </li>#}
-                {#            {% endfor %}#}
-
-                {% if comments_instance_paginator.has_next %}
-                    <li class="page-item"><a class="page-link"
-                                             href="?page={{ comments_instance_paginator.next_page_number }}">Następna
-                        strona</a></li>
-                    <li class="page-item"><a class="page-link"
-                                             href="?page={{ comments_instance_paginator.paginator.num_pages }}">&raquo;</a>
-                    </li>
-                {% endif %}
-
-            </ul>
-            <div class="text-center mb-5">
-                Strona {{ comments_instance_paginator.number }} z {{ comments_instance_paginator.paginator.num_pages }}
-            </div>
-        </nav>
     </div>
+    {#    pagination#}
+
+    <nav aria-label="...">
+        <ul class="pagination justify-content-center">
+
+            {% if comments_instance_paginator.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a>
+                </li>
+                <li class="page-item"><a class="page-link"
+                                         href="?page={{ comments_instance_paginator.previous_page_number }}">Poprzednia
+                    strona</a></li>
+            {% endif %}
+
+            {#            {% for i in nums %}#}
+            {#                <li class="page-item" aria-current='page'><a class="page-link"#}
+            {#                                                             href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>#}
+            {#                </li>#}
+            {#            {% endfor %}#}
+
+            {% if comments_instance_paginator.has_next %}
+                <li class="page-item"><a class="page-link"
+                                         href="?page={{ comments_instance_paginator.next_page_number }}">Następna
+                    strona</a></li>
+                <li class="page-item"><a class="page-link"
+                                         href="?page={{ comments_instance_paginator.paginator.num_pages }}">&raquo;</a>
+                </li>
+            {% endif %}
+
+        </ul>
+        <div class="text-center mb-5">
+            Strona {{ comments_instance_paginator.number }} z {{ comments_instance_paginator.paginator.num_pages }}
+        </div>
+    </nav>
 {% endblock %}

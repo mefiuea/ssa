@@ -5,32 +5,33 @@
 {% block title %}Szczegóły oferty{% endblock %}
 
 {% block content %}
-    <div class="row justify-content-center mt-3">
-        <div class="col-9">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">[{{ offer.type }}] {{ offer.title }}</h3>
-                    <h6 class="card-title">Wystawca: {{ offer.owner }}</h6>
-                    <h6 class="card-title">Cena PLN: {{ offer.price }}</h6>
-                    <h6 class="card-title">Stan: {{ offer.condition }}</h6>
-                    <h6 class="card-title">Opis:</h6>
-                    <p class="text-center card-text mt-4">{{ offer.description }}</p>
-                    <h6 class="card-title">URL: {{ offer.url }}</h6>
-                    <p class="card-text"><small class="text-muted">Data utworzenia: {{ offer.created_date }}</small></p>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <div class="col-md-12">
-                            {% if is_creator %}
-                                <a href="{% url 'management_app:offer_edit_view' offer.id %}"
-                                   class="btn btn-primary mt-3">Edytuj</a>
-                                <a href="{% url 'management_app:offer_delete_view' offer.id %}"
-                                   class="btn btn-danger mt-3">Usuń!</a>
-                                {#                            <button type="submit" class="btn btn-danger mt-3" name="delete_button">Usuń!</button>#}
-                            {% endif %}
-                        </div>
-                    </form>
-                </div>
+    <div class="container-lg mb-5">
+        <div class="card mx-auto" style="max-width: 1000px;">
+            <div class="card-body">
+                <h3 class="card-title">[{{ offer.type }}] {{ offer.title }}</h3>
+                <h6 class="card-title">Wystawca: {{ offer.owner }}</h6>
+                <h6 class="card-title">Cena PLN: {{ offer.price }}</h6>
+                <h6 class="card-title">Stan: {{ offer.condition }}</h6>
+                <h6 class="card-title">Opis:</h6>
+                <p class="text-center card-text mt-4">{{ offer.description }}</p>
+                <h6 class="card-title">URL: <a target="_blank" rel="noopener noreferrer"
+                                               href={{ offer.url }}>{{ offer.url }}</a></h6>
+                <p class="card-text"><small class="text-muted">Data utworzenia: {{ offer.created_date }}</small></p>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="col-md-12">
+                        {% if is_creator %}
+                            <a href="{% url 'management_app:offer_edit_view' offer.id %}"
+                               class="btn btn-primary mt-3">Edytuj</a>
+                            <a href="{% url 'management_app:offer_delete_view' offer.id %}"
+                               class="btn btn-danger mt-3">Usuń!</a>
+                            {#                            <button type="submit" class="btn btn-danger mt-3" name="delete_button">Usuń!</button>#}
+                        {% endif %}
+                    </div>
+                </form>
             </div>
+        </div>
+        <div class="mx-auto w-75" style="max-width: 1000px;">
             {% if offer.offer_image %}
                 <img class="card-img-bottom" src="{{ offer.offer_image.url }}" alt="Offer image">
             {% else %}

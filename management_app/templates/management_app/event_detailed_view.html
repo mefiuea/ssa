@@ -5,50 +5,50 @@
 {% block title %}Szczegóły wydarzenia{% endblock %}
 
 {% block content %}
-    <div class="row justify-content-center mt-3">
-        <div class="col-9">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">{{ event.title }}</h3>
-                    <h5 class="card-title">{{ event.date }}</h5>
-                    <h6 class="card-title">{{ event.time }}</h6>
-                    <h6 class="card-title">{{ event.place }}</h6>
-                    <h6 class="card-title">Twórca: {{ event.owner }}</h6>
-                    <h6 class="card-title text-muted"><i>Uczestnicy:</i>
-                        {% for participant in participants %}
-                            {{ participant }}{% if forloop.last %}{% else %},{% endif %}
-                        {% endfor %}
-                    </h6>
-                    <p class="text-center card-text mt-4">{{ event.description }}</p>
-                    <p class="card-text"><small class="text-muted"></small></p>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <div class="col-md-12">
-                            {% if not creator_already_take_part_in_event %}
-                                <button type="submit" class="btn btn-outline-success mt-3" name="participate_in_button">
-                                    Weź udział w wydarzeniu!
-                                </button>
-                            {% else %}
-                                <button type="submit" class="btn btn-outline-danger mt-3"
-                                        name="cancel_participation_button">
-                                    Zrezygnuj z udziału w wydarzeniu!
-                                </button>
-                            {% endif %}
-                            {% if is_creator %}
-                                <a href="{% url 'management_app:event_edit_view' event.id %}"
-                                   class="btn btn-primary mt-3">Edytuj</a>
-                                <a href="{% url 'management_app:event_delete_view' event.id %}"
-                                   class="btn btn-danger mt-3">Usuń!</a>
-                                {#                            <button type="submit" class="btn btn-danger mt-3" name="delete_button">Usuń!</button>#}
-                            {% endif %}
-                        </div>
-                    </form>
-                </div>
+    <div class="container-lg mb-5">
+        <div class="card mx-auto" style="max-width: 1000px;">
+            <div class="card-body">
+                <h3 class="card-title">{{ event.title }}</h3>
+                <h5 class="card-title">{{ event.date }}</h5>
+                <h6 class="card-title">{{ event.time }}</h6>
+                <h6 class="card-title">{{ event.place }}</h6>
+                <h6 class="card-title">Twórca: {{ event.owner }}</h6>
+                <h6 class="card-title text-muted"><i>Uczestnicy:</i>
+                    {% for participant in participants %}
+                        {{ participant }}{% if forloop.last %}{% else %},{% endif %}
+                    {% endfor %}
+                </h6>
+                <p class="text-center card-text mt-4">{{ event.description }}</p>
+                <p class="card-text"><small class="text-muted"></small></p>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="col-md-12">
+                        {% if not creator_already_take_part_in_event %}
+                            <button type="submit" class="btn btn-outline-success mt-3" name="participate_in_button">
+                                Weź udział w wydarzeniu!
+                            </button>
+                        {% else %}
+                            <button type="submit" class="btn btn-outline-danger mt-3"
+                                    name="cancel_participation_button">
+                                Zrezygnuj z udziału w wydarzeniu!
+                            </button>
+                        {% endif %}
+                        {% if is_creator %}
+                            <a href="{% url 'management_app:event_edit_view' event.id %}"
+                               class="btn btn-primary mt-3">Edytuj</a>
+                            <a href="{% url 'management_app:event_delete_view' event.id %}"
+                               class="btn btn-danger mt-3">Usuń!</a>
+                            {#                            <button type="submit" class="btn btn-danger mt-3" name="delete_button">Usuń!</button>#}
+                        {% endif %}
+                    </div>
+                </form>
             </div>
+        </div>
+        <div class="mx-auto w-75" style="max-width: 1000px;">
             {% if event.event_image %}
-                <img class="card-img-bottom" src="{{ event.event_image.url }}" alt="Card image cap">
+                <img class="card-img-bottom" src="{{ event.event_image.url }}" alt="Event picture">
             {% else %}
-                <img class="card-img-bottom" src="{% static 'images/default_event_icon.svg' %}" alt="Card image cap">
+                <img class="card-img-bottom" src="{% static 'images/default_event_icon.svg' %}" alt="Event picture">
             {% endif %}
         </div>
     </div>

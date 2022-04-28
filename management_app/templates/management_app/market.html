@@ -4,32 +4,28 @@
 {% block title %}Giełda{% endblock %}
 
 {% block content %}
-    <div class="container-lg">
-        <div class="d-flex justify-content-center mt-3">
-            <div class="w-75">
-                {% for offer in offers_list_paginator %}
-                    <div class="card mb-5">
-                    {% if offer.offer_image %}
-                        <img class="card-img-top img-thumbnail" style="height: 20rem; object-fit: scale-down"
-                             src="{{ offer.offer_image.url }}" alt="Offer picture">
-                        {% else %}
-                        <img class="card-img-top img-thumbnail" style="height: 20rem; object-fit: scale-down"
-                             src="{% static 'images/default_offer_icon.svg' %}" alt="Offer picture">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">[{{ offer.type }}] {{ offer.title }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Cena PLN: {{ offer.price }}</h6>
-                            <h6 class="card-subtitle mb-2 text-muted">Stan: {{ offer.condition }}</h6>
-                            <p><a href="{% url 'management_app:offer_detailed_view' offer.id %}"
-                                  class="btn btn-primary form-control">Szczegóły ogłoszenia</a></p>
-                            <p class="card-text"><small class="text-muted">Data
-                                utworzenia: {{ offer.created_date }}</small>
-                            </p>
-                        </div>
-                    </div>
-                {% endfor %}
+    <div class="container-lg mb-5">
+        {% for offer in offers_list_paginator %}
+            <div class="card mx-auto mb-5" style="max-width: 1000px;">
+                {% if offer.offer_image %}
+                    <img class="card-img-top img-thumbnail" style="height: 20rem; object-fit: scale-down"
+                         src="{{ offer.offer_image.url }}" alt="Offer picture">
+                {% else %}
+                    <img class="card-img-top img-thumbnail" style="height: 20rem; object-fit: scale-down"
+                         src="{% static 'images/default_offer_icon.svg' %}" alt="Offer picture">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">[{{ offer.type }}] {{ offer.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Cena PLN: {{ offer.price }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Stan: {{ offer.condition }}</h6>
+                    <p><a href="{% url 'management_app:offer_detailed_view' offer.id %}"
+                          class="btn btn-primary form-control">Szczegóły ogłoszenia</a></p>
+                    <p class="card-text"><small class="text-muted">Data
+                        utworzenia: {{ offer.created_date }}</small>
+                    </p>
+                </div>
             </div>
-        </div>
+        {% endfor %}
 
         <nav aria-label="...">
             <ul class="pagination justify-content-center">

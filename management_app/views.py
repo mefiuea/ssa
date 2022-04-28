@@ -172,7 +172,7 @@ def persons_view(request):
         pass
 
     if request.method == 'GET':
-        profiles_users_instance = Profile.objects.all().order_by('owner').select_related('owner')
+        profiles_users_instance = Profile.objects.all().order_by('-owner_id').select_related('owner')
 
         # generate random string for templates for unique collapse id (only letters)
         unique_id_list = []

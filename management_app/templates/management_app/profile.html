@@ -94,7 +94,10 @@
                                         {% for event in events_instance %}
                                             {% if user in event.participants.all %}
                                                 <ul class="list-group list-group-flush text-center">
-                                                    <li class="list-group-item">{{ event.title }}</li>
+                                                    <li class="list-group-item"><a
+                                                            href="{% url 'management_app:event_detailed_view' event.id %}"
+                                                            class="link-info"
+                                                            style="text-decoration: none">{{ event.title }}</a></li>
                                                 </ul>
                                             {% endif %}
                                         {% endfor %}

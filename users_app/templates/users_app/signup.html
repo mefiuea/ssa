@@ -5,10 +5,8 @@
 {% block title %}Zarejestruj się{% endblock %}
 
 {% block content %}
-    <div class="container-lg">
-        <div class="row justify-content-center mt-3">
-            <div class="w-75">
-                <div class="card">
+    <div class="container-lg mb-5">
+                <div class="card mx-auto" style="max-width: 1000px;">
                     <div class="card-body">
                         <h2 class="text-center text-uppercase mb-4">Rejestracja</h2>
                         <form action="" method="post">
@@ -22,6 +20,4 @@
                     <a href="{% url 'users_app:login_view' %}" class="btn btn-link">Zaloguj się!</a>
                 </div>
             </div>
-        </div>
-    </div>
 {% endblock %}

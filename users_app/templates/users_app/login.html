@@ -5,24 +5,20 @@
 {% block title %}Zaloguj{% endblock %}
 
 {% block content %}
-    <div class="container-lg">
-        <div class="row justify-content-center mt-3">
-            <div class="w-75">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="text-center text-uppercase mb-4">Logowanie</h2>
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            {{ form|crispy }}
-                            <div class="col-md-12 text-center">
-                                <button type="submit" class="btn btn-primary form-control">Zaloguj!</button>
-                            </div>
-                        </form>
+    <div class="container-lg mb-5">
+        <div class="card mx-auto" style="max-width: 1000px;">
+            <div class="card-body">
+                <h2 class="text-center text-uppercase mb-4">Logowanie</h2>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary form-control">Zaloguj!</button>
                     </div>
-                    <a href="{% url 'users_app:signup_view' %}" class="btn btn-link">Zarejestruj się!</a>
-                    <a href="{% url 'password_reset' %}" class="btn btn-link">Zapomniałeś hasła?</a>
-                </div>
+                </form>
             </div>
+            <a href="{% url 'users_app:signup_view' %}" class="btn btn-link">Zarejestruj się!</a>
+            <a href="{% url 'password_reset' %}" class="btn btn-link">Zapomniałeś hasła?</a>
         </div>
     </div>
 {% endblock %}

@@ -81,6 +81,33 @@
                                         </div>
                                     </div>
                                 </div>
+                                <p class="mb-4">
+                                    <button class="btn btn-outline-info form-control" type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseExample" aria-expanded="false"
+                                            aria-controls="collapseExample">
+                                        Rozwiń listę wydarzeń, w których bierzesz udział &darr;
+                                    </button>
+                                </p>
+                                <div class="collapse" id="collapseExample">
+                                    <div class="card card-body">
+                                        {% for event in events_instance %}
+                                            {% if user in event.participants.all %}
+                                                <ul class="list-group list-group-flush text-center">
+                                                    <li class="list-group-item">{{ event.title }}</li>
+                                                </ul>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <button class="btn btn-outline-info form-control mt-3" type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapseExample" aria-expanded="false"
+                                                aria-controls="collapseExample">
+                                            Zwiń listę &uarr;
+                                        </button>
+
+                                    </div>
+                                </div>
+
                                 <a href="{% url 'management_app:add_event_view' %}"
                                    class="btn btn-outline-primary mt-3">Stwórz wydarzenie</a>
                                 <a href="{% url 'management_app:add_offer_view' %}"

@@ -22,9 +22,13 @@ def profile_view(request):
         user = users_instance.objects.get(username=request.user)
         profile_instance = Profile.objects.get(owner=user)
 
+        # users take part in list
+        events_instance = Events.objects.all().order_by('-date')
+
         return render(request, 'management_app/profile.html', context={
             'user': user,
-            'profile_instance': profile_instance
+            'profile_instance': profile_instance,
+            'events_instance': events_instance
         })
 
 

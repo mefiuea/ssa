@@ -15,7 +15,8 @@
                             src="{% static 'images/default_event_icon.svg' %}" alt="Event picture">
                         {% endif %}
                 <div class="card-body">
-                    <h5 class="card-title">{{ event.title }}</h5>
+                    <h5 class="card-title">{{ event.title }} {% if user in event.participants.all %}
+                        <i class="text-danger fs-6">Bierzesz udział w tym wydarzeniu!</i>{% endif %}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Data wydarzenia: {{ event.date }}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">Godzina wydarzenia: {{ event.time }}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">Miejsce wydarzenia: {{ event.place }}</h6>
